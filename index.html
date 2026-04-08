@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jill's Flowershop</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0a0a0a; }
+  #game { min-height: 100vh; font-family: Georgia, serif; background: #0a0a0a; color: #f0ece4; position: relative; overflow: hidden; }
+  .screen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; text-align: center; }
+  .screen.active { display: flex; }
+  .brand { font-size: 13px; letter-spacing: 4px; color: #888; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .title-big { font-size: 42px; color: #f0ece4; line-height: 1.1; margin-bottom: 0.3rem; }
+  .title-red { color: #c0392b; font-style: italic; }
+  .subtitle { font-size: 13px; color: #666; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2rem; }
+  .time-badge { font-size: 11px; letter-spacing: 3px; color: #c0392b; border: 1px solid #c0392b44; padding: 5px 14px; margin-bottom: 2.5rem; }
+  .btn-main { background: none; border: 1px solid #f0ece4; color: #f0ece4; padding: 12px 36px; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; transition: all 0.3s; }
+  .btn-main:hover { background: #f0ece4; color: #0a0a0a; }
+  .narrative { font-size: 15px; line-height: 1.9; color: #ccc; max-width: 480px; margin-bottom: 2rem; font-style: italic; }
+  .section-label { font-size: 11px; letter-spacing: 3px; color: #c0392b; text-transform: uppercase; margin-bottom: 1.5rem; }
+  .flower-grid { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
+  .flower-card { width: 140px; background: #111; border: 1px solid #222; padding: 1.2rem 1rem; cursor: pointer; transition: all 0.3s; }
+  .flower-card:hover { border-color: #c0392b; }
+  .flower-card.selected { border-color: #c0392b; background: #1a0a09; }
+  .flower-icon { font-size: 28px; margin-bottom: 8px; }
+  .flower-name { font-size: 13px; color: #f0ece4; margin-bottom: 4px; font-style: italic; }
+  .flower-emotion { font-size: 11px; color: #666; letter-spacing: 1px; }
+  .grow-area { width: 100%; max-width: 420px; }
+  .stage-label { font-size: 11px; letter-spacing: 2px; color: #888; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .stage-name { font-size: 20px; color: #f0ece4; font-style: italic; margin-bottom: 1.5rem; }
+  .flower-display { font-size: 72px; margin-bottom: 1rem; transition: all 0.5s; }
+  .progress-bar { width: 100%; height: 2px; background: #1a1a1a; margin-bottom: 0.5rem; }
+  .progress-fill { height: 2px; background: #c0392b; transition: width 0.6s; }
+  .progress-label { font-size: 11px; color: #555; letter-spacing: 1px; text-align: right; margin-bottom: 2rem; }
+  .action-grid { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem; }
+  .action-btn { background: none; border: 1px solid #333; color: #aaa; padding: 8px 16px; font-size: 12px; cursor: pointer; font-family: Georgia, serif; transition: all 0.25s; letter-spacing: 1px; }
+  .action-btn:hover { border-color: #888; color: #f0ece4; }
+  .action-btn:disabled { opacity: 0.3; cursor: default; }
+  .message-box { font-size: 13px; font-style: italic; color: #c0392b; min-height: 24px; margin-bottom: 1rem; }
+  .final-word { font-size: 28px; color: #c0392b; font-style: italic; margin-bottom: 0.5rem; }
+  .final-desc { font-size: 14px; color: #999; line-height: 1.8; max-width: 400px; margin-bottom: 2rem; }
+  .stars { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="game">
+  <canvas class="stars" id="stars"></canvas>
+
+  <div class="screen active" id="s-intro">
+    <p class="brand">Seoul · Est. 1994</p>
+    <h1 class="title-big"><span class="title-red">Jill's</span><br>Flowershop</h1>
+    <p class="subtitle">A safe space for sleepless creatives</p>
+    <div class="time-badge">OPENS AT 4AM</div>
+    <button class="btn-main" onclick="goTo('s-enter')">Enter the shop</button>
+  </div>
+
+  <div class="screen" id="s-enter">
+    <p class="section-label">4:00 AM · Seoul</p>
+    <p class="narrative">
+      You wander in from the dark. The sign flickers. Inside, flowers you've never seen before — the kind that only grow in the hardest places.
+      <br><br>
+      Jill looks up. "You've been awake a while," she says. "Pick one."
+    </p>
+    <button class="btn-main" onclick="goTo('s-pick')">Browse the flowers</button>
+  </div>
+
+  <div class="screen" id="s-pick">
+    <p class="section-label">What are you carrying tonight?</p>
+    <div class="flower-grid" id="flowerGrid"></div>
+    <button class="btn-main" id="btn-choose" onclick="startGrow()" disabled>Take this flower</button>
+  </div>
+
+  <div class="screen" id="s-grow">
+    <div class="grow-area">
+      <p class="stage-label">Stage <span id="stageNum">1</span> of 4</p>
+      <p class="stage-name" id="stageName">Seed in the dark</p>
+      <div class="flower-display" id="flowerDisplay">🌑</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <p class="progress-label" id="progressLabel">0 / 16 actions</p>
+      <p class="message-box" id="msgBox"></p>
+      <div class="action-grid" id="actionGrid"></div>
+    </div>
+  </div>
+
+  <div class="screen" id="s-end">
+    <p class="section-label">Your flower bloomed</p>
+    <div class="flower-display" id="endFlower">🌸</div>
+    <p class="final-word" id="endWord">Resilience</p>
+    <p class="final-desc" id="endDesc">You thought you were doing nothing. But something was growing the whole time.</p>
+    <button class="btn-main" onclick="goTo('s-intro'); reset()">Visit again tonight</button>
+  </div>
+</div>
+
+<script>
+const flowers = [
+  { icon: "🥀", name: "Nightbloom", emotion: "Grief", stages: ["Seed in the dark","Roots reaching down","First pale shoot","Blooming at 4AM"], actions: [["Sit with it","Let it breathe","Water gently","Wait in silence"],["Write it down","Hold the stem","Whisper to it","Watch the dark"],["Feel the ache","Let rain in","Lean into it","Stay close"],["Watch it open","Breathe deep","Accept the color","Let it be yours"]], msgs: ["Even grief needs soil.","Roots grow downward first.","The shoot knows the way up.","It was always yours."], result: "🌹", word: "Compassion", desc: "You carried something heavy and let it bloom instead of vanish." },
+  { icon: "🌿", name: "Umbra Fern", emotion: "Doubt", stages: ["Hidden beneath stone","Cracking through","Finding the light","Standing tall"], actions: [["Sit quietly","Question it","Just breathe","Hold steady"],["Ask why","Try anyway","Feel the crack","Push gently"],["Look up once","Keep going","Notice the warmth","Trust a little"],["Own your shape","Name it yours","Stand without apology","Bloom anyway"]], msgs: ["Doubt is just the seed asking if it's worth it.","The crack is the beginning.","Light finds those who reach.","You didn't need permission."], result: "🌱", word: "Courage", desc: "You doubted the dark and kept growing anyway. That's strength." },
+  { icon: "🌑", name: "Darkrose", emotion: "Exhaustion", stages: ["Too tired to move","One small breath","Slow and steady","Open"], actions: [["Rest here","Do nothing","Close your eyes","Just exist"],["One breath in","Drink water","Stretch slowly","Notice silence"],["Small step","Let time pass","Stay gentle","Conserve your light"],["Rise slowly","Unfurl a petal","Accept warmth","You made it"]], msgs: ["Resting is not giving up.","One breath. That's enough.","Slow is still moving.","You bloomed by surviving."], result: "🌺", word: "Resilience", desc: "You thought you were standing still. You were actually healing." },
+  { icon: "✨", name: "Lumenwild", emotion: "Creativity", stages: ["A strange idea","Sketching in the dark","Building with shadows","The thing itself"], actions: [["Write it weird","Don't judge yet","Follow the feeling","Sit with nothing"],["Sketch anything","Tear it up","Try again","Let it be ugly"],["Show no one yet","Add one thing","Remove one thing","Trust your instinct"],["Give it a name","Let it out","Sign it yours","Release it"]], msgs: ["All strange ideas are seeds.","Ugly drafts are the bravest work.","Your instinct is the gardener.","It's yours. It was always yours."], result: "🌟", word: "Creativity", desc: "You made something from nothing at 4AM. That's the whole point." },
+];
+
+let chosen = null, stage = 0, actsDone = 0;
+const actsPerStage = 4;
+
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function reset() {
+  chosen = null; stage = 0; actsDone = 0;
+  document.getElementById('btn-choose').disabled = true;
+  renderFlowers();
+}
+
+function renderFlowers() {
+  const grid = document.getElementById('flowerGrid');
+  grid.innerHTML = '';
+  flowers.forEach((f, i) => {
+    const card = document.createElement('div');
+    card.className = 'flower-card';
+    card.innerHTML = `<div class="flower-icon">${f.icon}</div><div class="flower-name">${f.name}</div><div class="flower-emotion">${f.emotion}</div>`;
+    card.onclick = () => {
+      chosen = i;
+      document.querySelectorAll('.flower-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      document.getElementById('btn-choose').disabled = false;
+    };
+    grid.appendChild(card);
+  });
+}
+
+function startGrow() {
+  if (chosen === null) return;
+  stage = 0; actsDone = 0;
+  goTo('s-grow');
+  renderGrow();
+}
+
+function renderGrow() {
+  const f = flowers[chosen];
+  document.getElementById('stageNum').textContent = stage + 1;
+  document.getElementById('stageName').textContent = f.stages[stage];
+  const icons = ['🌑','🌱','🌿', f.result];
+  document.getElementById('flowerDisplay').textContent = icons[stage];
+  updateProgress();
+  renderActions();
+  document.getElementById('msgBox').textContent = '';
+}
+
+function updateProgress() {
+  const total = actsPerStage * 4;
+  const done = stage * actsPerStage + actsDone;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = done + ' / ' + total + ' actions';
+}
+
+function renderActions() {
+  const f = flowers[chosen];
+  const grid = document.getElementById('actionGrid');
+  grid.innerHTML = '';
+  f.actions[stage].forEach((a, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'action-btn';
+    btn.textContent = a;
+    btn.onclick = () => doAction(i, btn);
+    grid.appendChild(btn);
+  });
+}
+
+function doAction(i, btn) {
+  const f = flowers[chosen];
+  btn.disabled = true;
+  actsDone++;
+  updateProgress();
+  document.getElementById('msgBox').textContent = f.msgs[stage];
+  if (actsDone >= actsPerStage) {
+    setTimeout(() => {
+      stage++;
+      actsDone = 0;
+      if (stage >= 4) showEnding();
+      else renderGrow();
+    }, 900);
+  }
+}
+
+function showEnding() {
+  const f = flowers[chosen];
+  document.getElementById('endFlower').textContent = f.result;
+  document.getElementById('endWord').textContent = f.word;
+  document.getElementById('endDesc').textContent = f.desc;
+  goTo('s-end');
+}
+
+function drawStars() {
+  const c = document.getElementById('stars');
+  c.width = window.innerWidth;
+  c.height = window.innerHeight;
+  const ctx = c.getContext('2d');
+  for (let i = 0; i < 120; i++) {
+    const x = Math.random() * c.width;
+    const y = Math.random() * c.height;
+    const r = Math.random() * 0.8 + 0.2;
+    const a = Math.random() * 0.5 + 0.1;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(240,236,228,${a})`;
+    ctx.fill();
+  }
+}
+
+renderFlowers();
+drawStars();
+window.addEventListener('resize', drawStars);
+</script>
+</body>
+</html>
