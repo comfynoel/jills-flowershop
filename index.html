@@ -4,111 +4,306 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jill's Flowershop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #0a0a0a; }
-  #game { min-height: 100vh; font-family: Georgia, serif; background: #0a0a0a; color: #f0ece4; position: relative; overflow: hidden; }
-  .screen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; text-align: center; }
+
+  :root {
+    --font-base: Georgia, serif;
+    --font-ko: 'Pretendard', 'Noto Sans KR', sans-serif;
+    --font-pixel: 'Press Start 2P', monospace;
+  }
+
+  #game { min-height: 100vh; font-family: var(--font-base); background: #0a0a0a; color: #f0ece4; position: relative; overflow: hidden; }
+  .screen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; text-align: center; position: relative; z-index: 1; }
   .screen.active { display: flex; }
-  .brand { font-size: 13px; letter-spacing: 4px; color: #888; text-transform: uppercase; margin-bottom: 0.5rem; }
-  .title-big { font-size: 42px; color: #f0ece4; line-height: 1.1; margin-bottom: 0.3rem; }
-  .title-red { color: #c0392b; font-style: italic; }
-  .subtitle { font-size: 13px; color: #666; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2rem; }
-  .time-badge { font-size: 11px; letter-spacing: 3px; color: #c0392b; border: 1px solid #c0392b44; padding: 5px 14px; margin-bottom: 2.5rem; }
-  .btn-main { background: none; border: 1px solid #f0ece4; color: #f0ece4; padding: 12px 36px; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; font-family: Georgia, serif; transition: all 0.3s; }
+
+  /* Pixel title */
+  .title-pixel {
+    font-family: var(--font-pixel);
+    font-size: 20px;
+    color: #f0ece4;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0px;
+  }
+  .title-pixel .title-red { color: #c0392b; }
+
+  .brand { font-size: 11px; letter-spacing: 4px; color: #888; text-transform: uppercase; margin-bottom: 1rem; }
+  .subtitle { font-size: 12px; color: #666; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2rem; }
+  .time-badge { font-size: 10px; letter-spacing: 3px; color: #c0392b; border: 1px solid #c0392b44; padding: 5px 14px; margin-bottom: 2.5rem; }
+
+  .btn-main { background: none; border: 1px solid #f0ece4; color: #f0ece4; padding: 12px 36px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: var(--font-base); transition: all 0.3s; margin: 6px; }
   .btn-main:hover { background: #f0ece4; color: #0a0a0a; }
+  .btn-red { border-color: #c0392b; color: #c0392b; }
+  .btn-red:hover { background: #c0392b; color: #f0ece4; }
+
   .narrative { font-size: 15px; line-height: 1.9; color: #ccc; max-width: 480px; margin-bottom: 2rem; font-style: italic; }
-  .section-label { font-size: 11px; letter-spacing: 3px; color: #c0392b; text-transform: uppercase; margin-bottom: 1.5rem; }
-  .flower-grid { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
-  .flower-card { width: 140px; background: #111; border: 1px solid #222; padding: 1.2rem 1rem; cursor: pointer; transition: all 0.3s; }
+  .section-label { font-size: 10px; letter-spacing: 3px; color: #c0392b; text-transform: uppercase; margin-bottom: 1.5rem; }
+
+  .flower-grid { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; max-width: 680px; }
+  .flower-card { width: 118px; background: #111; border: 1px solid #222; padding: 1rem 0.8rem; cursor: pointer; transition: all 0.3s; }
   .flower-card:hover { border-color: #c0392b; }
   .flower-card.selected { border-color: #c0392b; background: #1a0a09; }
-  .flower-icon { font-size: 28px; margin-bottom: 8px; }
-  .flower-name { font-size: 13px; color: #f0ece4; margin-bottom: 4px; font-style: italic; }
-  .flower-emotion { font-size: 11px; color: #666; letter-spacing: 1px; }
+  .flower-icon { font-size: 24px; margin-bottom: 6px; }
+  .flower-name { font-size: 12px; color: #f0ece4; margin-bottom: 3px; font-style: italic; }
+  .flower-emotion { font-size: 10px; color: #666; letter-spacing: 1px; }
+
   .grow-area { width: 100%; max-width: 420px; }
-  .stage-label { font-size: 11px; letter-spacing: 2px; color: #888; text-transform: uppercase; margin-bottom: 0.5rem; }
-  .stage-name { font-size: 20px; color: #f0ece4; font-style: italic; margin-bottom: 1.5rem; }
+  .stage-label { font-size: 10px; letter-spacing: 2px; color: #888; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .stage-name { font-size: 18px; color: #f0ece4; font-style: italic; margin-bottom: 1.5rem; }
   .flower-display { font-size: 72px; margin-bottom: 1rem; transition: all 0.5s; }
   .progress-bar { width: 100%; height: 2px; background: #1a1a1a; margin-bottom: 0.5rem; }
   .progress-fill { height: 2px; background: #c0392b; transition: width 0.6s; }
-  .progress-label { font-size: 11px; color: #555; letter-spacing: 1px; text-align: right; margin-bottom: 2rem; }
+  .progress-label { font-size: 10px; color: #555; letter-spacing: 1px; text-align: right; margin-bottom: 2rem; }
   .action-grid { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem; }
-  .action-btn { background: none; border: 1px solid #333; color: #aaa; padding: 8px 16px; font-size: 12px; cursor: pointer; font-family: Georgia, serif; transition: all 0.25s; letter-spacing: 1px; }
+  .action-btn { background: none; border: 1px solid #333; color: #aaa; padding: 8px 16px; font-size: 12px; cursor: pointer; font-family: var(--font-base); transition: all 0.25s; letter-spacing: 1px; }
   .action-btn:hover { border-color: #888; color: #f0ece4; }
   .action-btn:disabled { opacity: 0.3; cursor: default; }
   .message-box { font-size: 13px; font-style: italic; color: #c0392b; min-height: 24px; margin-bottom: 1rem; }
-  .final-word { font-size: 28px; color: #c0392b; font-style: italic; margin-bottom: 0.5rem; }
+
+  .final-word { font-size: 26px; color: #c0392b; font-style: italic; margin-bottom: 0.5rem; }
   .final-desc { font-size: 14px; color: #999; line-height: 1.8; max-width: 400px; margin-bottom: 2rem; }
-  .stars { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+
+  .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+
+  #s-garden { justify-content: flex-start; padding-top: 3rem; }
+  #s-pick { justify-content: flex-start; padding-top: 3rem; }
+  .garden-title { font-size: 24px; color: #f0ece4; font-style: italic; margin-bottom: 0.3rem; }
+  .garden-subtitle { font-size: 10px; letter-spacing: 3px; color: #666; text-transform: uppercase; margin-bottom: 2.5rem; }
+  .garden-ground { width: 100%; max-width: 760px; min-height: 260px; position: relative; margin-bottom: 2rem; }
+  .ground-line { width: 100%; height: 1px; background: linear-gradient(to right, transparent, #2a2010, #3a3020, #2a2010, transparent); position: absolute; bottom: 60px; }
+  .garden-flowers { display: flex; gap: 0; flex-wrap: wrap; justify-content: center; align-items: flex-end; padding-bottom: 60px; min-height: 200px; }
+  .garden-flower { display: flex; flex-direction: column; align-items: center; width: 90px; padding: 0 4px; cursor: pointer; transition: transform 0.3s; position: relative; }
+  .garden-flower:hover { transform: translateY(-6px); }
+  .gf-emoji { font-size: 38px; margin-bottom: 2px; animation: sway 3s ease-in-out infinite; }
+  .gf-stem { width: 2px; height: 28px; background: linear-gradient(to top, #1a3a1a, #2d5a2d); }
+  .gf-word { font-size: 8px; letter-spacing: 1px; color: #c0392b; text-transform: uppercase; margin-top: 8px; }
+  .gf-date { font-size: 8px; color: #444; margin-top: 2px; }
+  .gf-glow-red { filter: drop-shadow(0 0 10px #ff6b6b88); }
+  .gf-glow-green { filter: drop-shadow(0 0 10px #6bffb888); }
+  .gf-glow-gold { filter: drop-shadow(0 0 10px #ffd70088); }
+  .gf-glow-pink { filter: drop-shadow(0 0 10px #ff9de288); }
+  .gf-glow-blue { filter: drop-shadow(0 0 10px #6bb5ff88); }
+  .gf-glow-purple { filter: drop-shadow(0 0 10px #c06bff88); }
+  .gf-glow-white { filter: drop-shadow(0 0 10px #ffffff66); }
+  .gf-glow-orange { filter: drop-shadow(0 0 10px #ffaa4488); }
+  @keyframes sway { 0%,100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+  .empty-garden { font-size: 14px; color: #444; font-style: italic; padding: 3rem 0; }
+  .garden-count { font-size: 10px; color: #555; letter-spacing: 2px; margin-bottom: 2rem; }
+  .gf-tooltip { display: none; position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); background: #111; border: 1px solid #c0392b33; padding: 6px 10px; font-size: 10px; color: #ccc; white-space: nowrap; font-style: italic; z-index: 10; }
+  .garden-flower:hover .gf-tooltip { display: block; }
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+  /* Lang toggle */
+  .lang-toggle { position: fixed; top: 18px; right: 18px; z-index: 100; display: flex; border: 1px solid #333; overflow: hidden; }
+  .lang-btn { background: none; border: none; color: #666; padding: 6px 13px; font-size: 11px; letter-spacing: 1px; cursor: pointer; font-family: var(--font-base); transition: all 0.2s; }
+  .lang-btn.active { background: #c0392b; color: #f0ece4; }
+  .lang-btn:hover:not(.active) { color: #f0ece4; }
+
+  /* Korean font overrides */
+  body.lang-ko .btn-main,
+  body.lang-ko .action-btn,
+  body.lang-ko .narrative,
+  body.lang-ko .section-label,
+  body.lang-ko .brand,
+  body.lang-ko .subtitle,
+  body.lang-ko .time-badge,
+  body.lang-ko .flower-name,
+  body.lang-ko .flower-emotion,
+  body.lang-ko .stage-name,
+  body.lang-ko .stage-label,
+  body.lang-ko .progress-label,
+  body.lang-ko .message-box,
+  body.lang-ko .final-word,
+  body.lang-ko .final-desc,
+  body.lang-ko .garden-subtitle,
+  body.lang-ko .garden-count,
+  body.lang-ko .empty-garden,
+  body.lang-ko .gf-word,
+  body.lang-ko .gf-date,
+  body.lang-ko .gf-tooltip {
+    font-family: var(--font-ko);
+    letter-spacing: 0;
+  }
+  body.lang-ko .btn-main { letter-spacing: 0.5px; font-size: 13px; }
+  body.lang-ko .action-btn { letter-spacing: 0; font-size: 13px; }
+  body.lang-ko .narrative { font-style: normal; font-weight: 300; }
+  body.lang-ko .message-box { font-style: normal; }
+  body.lang-ko .final-word { font-style: normal; font-weight: 500; }
+  body.lang-ko .stage-name { font-style: normal; }
 </style>
 </head>
-<body>
+<body class="lang-en">
 <div id="game">
   <canvas class="stars" id="stars"></canvas>
 
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-ko" onclick="setLang('ko')">한국어</button>
+  </div>
+
+  <!-- Intro -->
   <div class="screen active" id="s-intro">
-    <p class="brand">Seoul · Est. 1994</p>
-    <h1 class="title-big"><span class="title-red">Jill's</span><br>Flowershop</h1>
-    <p class="subtitle">A safe space for sleepless creatives</p>
-    <div class="time-badge">OPENS AT 4AM</div>
-    <button class="btn-main" onclick="goTo('s-enter')">Enter the shop</button>
+    <p class="brand" data-i18n="brand">Seoul · Est. 1994</p>
+    <h1 class="title-pixel"><span class="title-red">Jill's</span><br>Flowershop</h1>
+    <p class="subtitle" data-i18n="subtitle">A safe space for sleepless creatives</p>
+    <div class="time-badge" data-i18n="opens">OPENS AT 4AM</div>
+    <div class="btn-row">
+      <button class="btn-main" onclick="goTo('s-enter')" data-i18n="enterShop">Enter the shop</button>
+      <button class="btn-main btn-red" onclick="goTo('s-garden'); renderGarden()" data-i18n="myGarden">My garden</button>
+    </div>
   </div>
 
+  <!-- Narrative -->
   <div class="screen" id="s-enter">
-    <p class="section-label">4:00 AM · Seoul</p>
-    <p class="narrative">
-      You wander in from the dark. The sign flickers. Inside, flowers you've never seen before — the kind that only grow in the hardest places.
-      <br><br>
-      Jill looks up. "You've been awake a while," she says. "Pick one."
-    </p>
-    <button class="btn-main" onclick="goTo('s-pick')">Browse the flowers</button>
+    <p class="section-label" data-i18n="timeLabel">4:00 AM · Seoul</p>
+    <p class="narrative" id="narrativeText"></p>
+    <button class="btn-main" onclick="goTo('s-pick')" data-i18n="browseFlowers">Browse the flowers</button>
   </div>
 
+  <!-- Pick -->
   <div class="screen" id="s-pick">
-    <p class="section-label">What are you carrying tonight?</p>
+    <p class="section-label" style="margin-top:1rem;" data-i18n="pickLabel">What are you carrying tonight?</p>
     <div class="flower-grid" id="flowerGrid"></div>
-    <button class="btn-main" id="btn-choose" onclick="startGrow()" disabled>Take this flower</button>
+    <button class="btn-main" id="btn-choose" onclick="startGrow()" disabled data-i18n="takeFlower">Take this flower</button>
   </div>
 
+  <!-- Grow -->
   <div class="screen" id="s-grow">
     <div class="grow-area">
-      <p class="stage-label">Stage <span id="stageNum">1</span> of 4</p>
-      <p class="stage-name" id="stageName">Seed in the dark</p>
+      <p class="stage-label" id="stageLabelText"></p>
+      <p class="stage-name" id="stageName"></p>
       <div class="flower-display" id="flowerDisplay">🌑</div>
       <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-      <p class="progress-label" id="progressLabel">0 / 16 actions</p>
+      <p class="progress-label" id="progressLabel"></p>
       <p class="message-box" id="msgBox"></p>
       <div class="action-grid" id="actionGrid"></div>
     </div>
   </div>
 
+  <!-- End -->
   <div class="screen" id="s-end">
-    <p class="section-label">Your flower bloomed</p>
-    <div class="flower-display" id="endFlower">🌸</div>
-    <p class="final-word" id="endWord">Resilience</p>
-    <p class="final-desc" id="endDesc">You thought you were doing nothing. But something was growing the whole time.</p>
-    <button class="btn-main" onclick="goTo('s-intro'); reset()">Visit again tonight</button>
+    <p class="section-label" data-i18n="bloomed">Your flower bloomed</p>
+    <div class="flower-display" id="endFlower"></div>
+    <p class="final-word" id="endWord"></p>
+    <p class="final-desc" id="endDesc"></p>
+    <div class="btn-row">
+      <button class="btn-main" onclick="goTo('s-garden'); renderGarden()" data-i18n="seeGarden">See my garden</button>
+      <button class="btn-main btn-red" onclick="goTo('s-intro'); resetGame()" data-i18n="visitAgain">Visit again</button>
+    </div>
+  </div>
+
+  <!-- Garden -->
+  <div class="screen" id="s-garden">
+    <p class="section-label" data-i18n="myGardenLabel">My Garden</p>
+    <p class="garden-title"><span style="color:#c0392b;font-style:italic;">Jill's</span> <span data-i18n="gardenTitle">Garden</span></p>
+    <p class="garden-subtitle" data-i18n="gardenSub">Flowers grown in the dark</p>
+    <p class="garden-count" id="gardenCount"></p>
+    <div class="garden-ground">
+      <div class="garden-flowers" id="gardenFlowers"></div>
+      <div class="ground-line"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-main" onclick="goTo('s-enter')" data-i18n="growAnother">Grow another</button>
+      <button class="btn-main btn-red" onclick="goTo('s-intro')" data-i18n="backToShop">Back to shop</button>
+    </div>
   </div>
 </div>
 
 <script>
-const flowers = [
-  { icon: "🥀", name: "Nightbloom", emotion: "Grief", stages: ["Seed in the dark","Roots reaching down","First pale shoot","Blooming at 4AM"], actions: [["Sit with it","Let it breathe","Water gently","Wait in silence"],["Write it down","Hold the stem","Whisper to it","Watch the dark"],["Feel the ache","Let rain in","Lean into it","Stay close"],["Watch it open","Breathe deep","Accept the color","Let it be yours"]], msgs: ["Even grief needs soil.","Roots grow downward first.","The shoot knows the way up.","It was always yours."], result: "🌹", word: "Compassion", desc: "You carried something heavy and let it bloom instead of vanish." },
-  { icon: "🌿", name: "Umbra Fern", emotion: "Doubt", stages: ["Hidden beneath stone","Cracking through","Finding the light","Standing tall"], actions: [["Sit quietly","Question it","Just breathe","Hold steady"],["Ask why","Try anyway","Feel the crack","Push gently"],["Look up once","Keep going","Notice the warmth","Trust a little"],["Own your shape","Name it yours","Stand without apology","Bloom anyway"]], msgs: ["Doubt is just the seed asking if it's worth it.","The crack is the beginning.","Light finds those who reach.","You didn't need permission."], result: "🌱", word: "Courage", desc: "You doubted the dark and kept growing anyway. That's strength." },
-  { icon: "🌑", name: "Darkrose", emotion: "Exhaustion", stages: ["Too tired to move","One small breath","Slow and steady","Open"], actions: [["Rest here","Do nothing","Close your eyes","Just exist"],["One breath in","Drink water","Stretch slowly","Notice silence"],["Small step","Let time pass","Stay gentle","Conserve your light"],["Rise slowly","Unfurl a petal","Accept warmth","You made it"]], msgs: ["Resting is not giving up.","One breath. That's enough.","Slow is still moving.","You bloomed by surviving."], result: "🌺", word: "Resilience", desc: "You thought you were standing still. You were actually healing." },
-  { icon: "✨", name: "Lumenwild", emotion: "Creativity", stages: ["A strange idea","Sketching in the dark","Building with shadows","The thing itself"], actions: [["Write it weird","Don't judge yet","Follow the feeling","Sit with nothing"],["Sketch anything","Tear it up","Try again","Let it be ugly"],["Show no one yet","Add one thing","Remove one thing","Trust your instinct"],["Give it a name","Let it out","Sign it yours","Release it"]], msgs: ["All strange ideas are seeds.","Ugly drafts are the bravest work.","Your instinct is the gardener.","It's yours. It was always yours."], result: "🌟", word: "Creativity", desc: "You made something from nothing at 4AM. That's the whole point." },
-];
+const i18n = {
+  en: {
+    brand:"Seoul · Est. 1994", subtitle:"A safe space for sleepless creatives", opens:"OPENS AT 4AM",
+    enterShop:"Enter the shop", myGarden:"My garden", timeLabel:"4:00 AM · Seoul",
+    narrative:"You wander in from the dark. The sign flickers. Inside, flowers you've never seen before — the kind that only grow in the hardest places.<br><br>Jill looks up. \"You've been awake a while,\" she says. \"Pick one.\"",
+    browseFlowers:"Browse the flowers", pickLabel:"What are you carrying tonight?", takeFlower:"Take this flower",
+    stageOf:(s,t)=>`Stage ${s} of ${t}`, actionsOf:(d,t)=>`${d} / ${t} actions`,
+    bloomed:"Your flower bloomed", seeGarden:"See my garden", visitAgain:"Visit again",
+    myGardenLabel:"My Garden", gardenTitle:"Garden", gardenSub:"Flowers grown in the dark",
+    flowersGrown:(n)=>n===1?"1 flower grown":`${n} flowers grown`,
+    emptyGarden:"Your garden is waiting.<br>Grow your first flower tonight.",
+    growAnother:"Grow another", backToShop:"Back to shop",
+  },
+  ko: {
+    brand:"서울 · 1994년 개업", subtitle:"잠 못 드는 크리에이티브를 위한 공간", opens:"새벽 4시에 열어요",
+    enterShop:"가게 들어가기", myGarden:"내 정원", timeLabel:"새벽 4시 · 서울",
+    narrative:"어둠 속에서 걸어 들어왔어요. 간판이 깜빡입니다. 안에는 한 번도 본 적 없는 꽃들이 있어요 — 가장 힘든 곳에서만 피어나는 꽃들.<br><br>Jill이 고개를 들어요. \"오래 깨어 있었군요,\" 그녀가 말해요. \"하나 골라봐요.\"",
+    browseFlowers:"꽃 구경하기", pickLabel:"오늘 밤 무엇을 안고 있나요?", takeFlower:"이 꽃 가져가기",
+    stageOf:(s,t)=>`${s}단계 / 총 ${t}단계`, actionsOf:(d,t)=>`${d} / ${t} 행동`,
+    bloomed:"꽃이 피었어요", seeGarden:"내 정원 보기", visitAgain:"다시 방문하기",
+    myGardenLabel:"내 정원", gardenTitle:"정원", gardenSub:"어둠 속에서 피운 꽃들",
+    flowersGrown:(n)=>`${n}개의 꽃을 피웠어요`,
+    emptyGarden:"정원이 기다리고 있어요.<br>오늘 밤 첫 번째 꽃을 키워보세요.",
+    growAnother:"또 키우기", backToShop:"가게로 돌아가기",
+  }
+};
 
+const flowers = {
+  en: [
+    {icon:"🥀",name:"Nightbloom",emotion:"Grief",stages:["Seed in the dark","Roots reaching down","First pale shoot","Blooming at 4AM"],actions:[["Sit with it","Let it breathe","Water gently","Wait in silence"],["Write it down","Hold the stem","Whisper to it","Watch the dark"],["Feel the ache","Let rain in","Lean into it","Stay close"],["Watch it open","Breathe deep","Accept the color","Let it be yours"]],msgs:["Even grief needs soil.","Roots grow downward first.","The shoot knows the way up.","It was always yours."],result:"🌹",word:"Compassion",desc:"You carried something heavy and let it bloom instead of vanish.",glowClass:"gf-glow-pink"},
+    {icon:"🌿",name:"Umbra Fern",emotion:"Doubt",stages:["Hidden beneath stone","Cracking through","Finding the light","Standing tall"],actions:[["Sit quietly","Question it","Just breathe","Hold steady"],["Ask why","Try anyway","Feel the crack","Push gently"],["Look up once","Keep going","Notice the warmth","Trust a little"],["Own your shape","Name it yours","Stand without apology","Bloom anyway"]],msgs:["Doubt is just the seed asking if it's worth it.","The crack is the beginning.","Light finds those who reach.","You didn't need permission."],result:"🌱",word:"Courage",desc:"You doubted the dark and kept growing anyway. That's strength.",glowClass:"gf-glow-green"},
+    {icon:"🌑",name:"Darkrose",emotion:"Exhaustion",stages:["Too tired to move","One small breath","Slow and steady","Open"],actions:[["Rest here","Do nothing","Close your eyes","Just exist"],["One breath in","Drink water","Stretch slowly","Notice silence"],["Small step","Let time pass","Stay gentle","Conserve your light"],["Rise slowly","Unfurl a petal","Accept warmth","You made it"]],msgs:["Resting is not giving up.","One breath. That's enough.","Slow is still moving.","You bloomed by surviving."],result:"🌺",word:"Resilience",desc:"You thought you were standing still. You were actually healing.",glowClass:"gf-glow-red"},
+    {icon:"✨",name:"Lumenwild",emotion:"Creativity",stages:["A strange idea","Sketching in the dark","Building with shadows","The thing itself"],actions:[["Write it weird","Don't judge yet","Follow the feeling","Sit with nothing"],["Sketch anything","Tear it up","Try again","Let it be ugly"],["Show no one yet","Add one thing","Remove one thing","Trust your instinct"],["Give it a name","Let it out","Sign it yours","Release it"]],msgs:["All strange ideas are seeds.","Ugly drafts are the bravest work.","Your instinct is the gardener.","It's yours. It was always yours."],result:"🌟",word:"Creativity",desc:"You made something from nothing at 4AM. That's the whole point.",glowClass:"gf-glow-gold"},
+    {icon:"🩹",name:"Woundpetal",emotion:"Hurt",stages:["Raw and open","Cleaning the wound","New skin forming","Scarred and stronger"],actions:[["Acknowledge it","Don't pretend","Feel the sting","Let it be real"],["Wash it gently","Be kind to yourself","Rest from the cause","No blame yet"],["Notice healing","Small kindness","Accept the tenderness","Let others near"],["Wear the scar","It's proof you lived","Show up anyway","You are still here"]],msgs:["Hurt is honest. Don't rush past it.","Cleaning a wound is an act of self-love.","New skin is the bravest skin.","Scars are just healed courage."],result:"🌸",word:"Healing",desc:"You let yourself hurt, and that's the only way through to the other side.",glowClass:"gf-glow-pink"},
+    {icon:"🌧️",name:"Rainstem",emotion:"Disappointment",stages:["The fall","Sitting in the rain","Finding solid ground","Rising again"],actions:[["Let it land","Don't explain it away","Feel the drop","Name what was lost"],["Stay in the feeling","Don't rush forward","Let it rain","Give it time"],["Look at what remains","Find one steady thing","Breathe into the ground","Accept the new shape"],["Redefine what wins","Set new hope","Take one small step","Begin again"]],msgs:["Disappointment means you dared to hope. That's not nothing.","Rain makes the roots dig deeper.","What remains after disappointment is real.","Beginning again is not losing. It's brave."],result:"🌼",word:"Hope",desc:"Something didn't go the way you imagined. But you're still here, still hoping.",glowClass:"gf-glow-gold"},
+    {icon:"🕯️",name:"Solitude",emotion:"Loneliness",stages:["Alone in the dark","Finding your own light","Reaching outward","Connection blooms"],actions:[["Sit with yourself","No phone, just you","Notice your breath","Be your own company"],["Light something small","Write to no one","Hum quietly","Remember who you are"],["Send one message","Step outside briefly","Smile at a stranger","Open one door"],["Let someone in","Share something small","Receive kindness","You are not alone"]],msgs:["Loneliness is the ache of a heart that knows how to love.","Your own light is enough to start.","One small reach can change everything.","Connection was always possible."],result:"🌷",word:"Connection",desc:"You sat alone in the dark long enough to remember you don't have to stay there.",glowClass:"gf-glow-purple"},
+    {icon:"🌊",name:"Deepbloom",emotion:"Sadness",stages:["Under the water","Floating up slowly","Breaking the surface","Breathing again"],actions:[["Don't fight it","Let the wave come","Cry if you need to","Just feel it"],["Notice you're floating","Slow your breath","Find one soft thing","Be gentle today"],["Look up toward light","Kick slowly upward","Feel the air near","Almost there"],["Take a full breath","Sadness did not win","It passed through you","You are still here"]],msgs:["Sadness is water — it moves if you don't dam it up.","Floating is enough. You don't have to swim yet.","The surface was always there waiting for you.","Breathing again is everything."],result:"💙",word:"Tenderness",desc:"You let sadness move through you instead of drowning in it. That took strength.",glowClass:"gf-glow-blue"},
+    {icon:"🔥",name:"Emberflower",emotion:"Anger",stages:["The spark","Burning hot","Cooling embers","Warm steady light"],actions:[["Name what's wrong","Don't swallow it","Feel the heat","It's valid"],["Let it out safely","Move your body","Write it down raw","Scream into a pillow"],["Notice the embers","What matters most?","Find the core truth","Breathe slowly now"],["Turn heat into fuel","Channel the energy","Decide what to do","Let the rest go"]],msgs:["Anger is just love with nowhere to go.","Burning hot is okay. Stay with it safely.","What's left after anger is clarity.","Fuel, not destruction. That's the shift."],result:"🌻",word:"Clarity",desc:"You felt it fully and didn't let it burn everything down. That's wisdom.",glowClass:"gf-glow-orange"},
+    {icon:"🪞",name:"Mirrorfern",emotion:"Shame",stages:["Hidden from sight","Peeking out","Being witnessed","Standing in light"],actions:[["Admit it to yourself","No performance","Just the truth","Be honest here"],["One small step out","Don't catastrophize","You are not your mistake","Separate self from act"],["Let one person see","Speak it quietly","Receive their kindness","It didn't destroy you"],["Look in the mirror","Say your own name","You are still worthy","Shame cannot stay in light"]],msgs:["Shame grows in hiding. You're already braver just by naming it.","You are not what you did in your worst moment.","Being witnessed heals what shame does.","Light is shame's only enemy. You brought it."],result:"🌾",word:"Worthiness",desc:"You brought yourself out of hiding, and the world didn't end. It never does.",glowClass:"gf-glow-white"},
+    {icon:"🫧",name:"Driftmoss",emotion:"Anxiety",stages:["Spinning in the dark","One anchor found","Slowing down","Grounded and still"],actions:[["Notice you're spinning","Name the fear","Don't run yet","Just observe"],["Find one solid thing","Feel your feet","Five things you see","One slow breath"],["Let the spin slow","You don't need all answers","Just now, just this","Stay present"],["Feel the ground","You are safe right now","Breathe all the way out","This moment is enough"]],msgs:["Anxiety lies. The present is usually safer than it thinks.","One anchor is enough to stop the spiral.","You don't have to solve everything tonight.","Right now, in this moment, you are okay."],result:"🍃",word:"Stillness",desc:"You found the ground beneath the spinning. It was always there under your feet.",glowClass:"gf-glow-green"},
+    {icon:"🌫️",name:"Greymoss",emotion:"Emptiness",stages:["Nothing at all","A faint flicker","Something stirs","Quiet aliveness"],actions:[["Allow the nothing","Don't fill it yet","Rest in the blank","It's okay to be empty"],["Notice one small thing","A color, a sound","Touch something real","Follow one tiny pull"],["Do one tiny thing","Make something small","Move your body gently","Let curiosity lead"],["Name what stirred","Something is there","You are not hollow","Life is returning"]],msgs:["Empty is not broken. Empty is just before.","Even a flicker is a beginning.","Curiosity is the seed of aliveness.","Something in you kept going. That's everything."],result:"🌙",word:"Becoming",desc:"You sat in the nothing long enough that something small, quiet, and real came back.",glowClass:"gf-glow-purple"},
+  ],
+  ko: [
+    {icon:"🥀",name:"밤꽃",emotion:"슬픔",stages:["어둠 속의 씨앗","뿌리가 내려가고","첫 번째 새싹","새벽 4시에 피어나다"],actions:[["그냥 곁에 있기","숨쉬게 두기","조용히 물 주기","침묵 속에 기다리기"],["글로 써보기","줄기를 잡아보기","꽃에게 속삭이기","어둠을 바라보기"],["아픔을 느끼기","비를 맞아들이기","그 감정에 기대기","가까이 머물기"],["꽃이 열리는 걸 보기","깊게 숨쉬기","색을 받아들이기","내 것으로 두기"]],msgs:["슬픔도 흙이 필요해요.","뿌리는 먼저 아래로 자라요.","새싹은 위로 가는 길을 알아요.","언제나 당신의 것이었어요."],result:"🌹",word:"연민",desc:"무거운 것을 품고 사라지게 두지 않고 꽃으로 피워냈어요.",glowClass:"gf-glow-pink"},
+    {icon:"🌿",name:"어둠고사리",emotion:"의심",stages:["돌 아래 숨어서","균열이 생기고","빛을 찾아서","당당하게 서다"],actions:[["조용히 앉기","질문해보기","그냥 숨쉬기","버텨보기"],["왜인지 묻기","그래도 해보기","균열을 느끼기","살짝 밀어보기"],["한 번 올려다보기","계속 가기","따뜻함을 느끼기","조금 믿어보기"],["내 모습 받아들이기","내 것으로 이름 붙이기","사과 없이 서기","그래도 피어나기"]],msgs:["의심은 씨앗이 '가치 있을까?' 묻는 거예요.","균열이 바로 시작이에요.","빛은 손을 뻗는 사람에게 찾아와요.","허락이 필요 없었어요."],result:"🌱",word:"용기",desc:"어둠을 의심하면서도 계속 자라났어요. 그게 힘이에요.",glowClass:"gf-glow-green"},
+    {icon:"🌑",name:"어두운장미",emotion:"지침",stages:["너무 피곤해서","작은 숨 하나","천천히 그리고 꾸준히","열리다"],actions:[["여기서 쉬기","아무것도 안 하기","눈 감기","그냥 존재하기"],["숨 한 번 들이쉬기","물 마시기","천천히 스트레칭","고요함을 느끼기"],["작은 발걸음","시간이 지나도록 두기","스스로에게 다정하기","빛을 아끼기"],["천천히 일어나기","꽃잎 하나 펼치기","따뜻함 받아들이기","해냈어요"]],msgs:["쉬는 건 포기가 아니에요.","숨 한 번. 그것으로 충분해요.","느리게 가도 움직이는 거예요.","살아남아서 꽃이 피었어요."],result:"🌺",word:"회복력",desc:"멈춰 있다고 생각했는데, 사실 치유되고 있었어요.",glowClass:"gf-glow-red"},
+    {icon:"✨",name:"빛꽃",emotion:"창의력",stages:["이상한 아이디어","어둠 속에서 스케치","그림자로 만들기","그것 자체"],actions:[["이상하게 써보기","아직 판단하지 말기","느낌을 따라가기","아무것도 없이 앉기"],["뭐든 그려보기","찢어버리기","다시 해보기","못나도 괜찮아"],["아직 아무에게도 보이지 말기","한 가지 더하기","한 가지 빼기","직감을 믿기"],["이름 붙이기","세상에 내보내기","내 것으로 서명하기","놓아주기"]],msgs:["이상한 아이디어는 모두 씨앗이에요.","못난 초안이 가장 용감한 작업이에요.","직감이 정원사예요.","당신 것이에요. 언제나 그랬어요."],result:"🌟",word:"창의성",desc:"새벽 4시에 아무것도 없는 데서 무언가를 만들었어요. 그게 전부예요.",glowClass:"gf-glow-gold"},
+    {icon:"🩹",name:"상처꽃잎",emotion:"상처",stages:["날것의 아픔","상처를 돌보며","새 살이 돋고","흔적과 함께 더 강하게"],actions:[["인정하기","모른 척하지 않기","따끔함을 느끼기","진짜로 두기"],["살살 씻어내기","스스로에게 친절하기","원인으로부터 쉬기","아직 탓하지 않기"],["치유를 알아채기","작은 친절","부드러움을 받아들이기","다가오게 두기"],["흔적을 지니기","살았다는 증거예요","그래도 나타나기","여기 있어요"]],msgs:["상처는 솔직해요. 서둘러 지나치지 마세요.","상처를 닦는 건 자기 사랑이에요.","새 살이 가장 용감한 살이에요.","흔적은 치유된 용기예요."],result:"🌸",word:"치유",desc:"아프게 두었어요. 그게 저편으로 가는 유일한 길이에요.",glowClass:"gf-glow-pink"},
+    {icon:"🌧️",name:"빗줄기",emotion:"실망",stages:["추락","빗속에 앉아","단단한 땅을 찾아","다시 일어나"],actions:[["그냥 받아들이기","합리화하지 않기","떨어지는 걸 느끼기","잃은 것 이름 붙이기"],["감정 안에 머물기","서두르지 않기","비가 내리게 두기","시간 주기"],["남은 것 바라보기","하나의 단단한 것 찾기","땅으로 숨쉬기","새로운 모습 받아들이기"],["승리를 다시 정의하기","새 희망 품기","작은 한 걸음 내딛기","다시 시작하기"]],msgs:["실망은 감히 희망했다는 뜻이에요.","비는 뿌리를 더 깊게 만들어요.","실망 후에 남는 것이 진짜예요.","다시 시작은 지는 게 아니에요. 용감한 거예요."],result:"🌼",word:"희망",desc:"상상한 대로 되지 않았어요. 그래도 여기 있고, 여전히 희망해요.",glowClass:"gf-glow-gold"},
+    {icon:"🕯️",name:"고독",emotion:"외로움",stages:["어둠 속 혼자","자기 빛 찾기","바깥으로 손 뻗기","연결이 피어나"],actions:[["혼자 앉기","핸드폰 없이","숨쉬는 걸 느끼기","스스로와 함께 있기"],["작은 빛 켜기","아무에게도 아닌 글쓰기","조용히 흥얼거리기","내가 누군지 기억하기"],["메시지 하나 보내기","잠깐 밖에 나가기","낯선 사람에게 미소 짓기","문 하나 열기"],["누군가를 들이기","작은 것 나누기","친절을 받기","혼자가 아니에요"]],msgs:["외로움은 사랑하는 법을 아는 마음의 아픔이에요.","당신의 빛으로 시작하면 충분해요.","작은 손 뻗음 하나가 모든 걸 바꿀 수 있어요.","연결은 언제나 가능했어요."],result:"🌷",word:"연결",desc:"혼자 충분히 앉아 있다가, 거기 있을 필요가 없다는 걸 기억했어요.",glowClass:"gf-glow-purple"},
+    {icon:"🌊",name:"깊은꽃",emotion:"슬픔",stages:["물 아래에서","천천히 떠오르며","수면을 뚫고","다시 숨쉬다"],actions:[["싸우지 않기","파도가 오게 두기","울어도 괜찮아","그냥 느끼기"],["떠 있는 걸 느끼기","숨 천천히 쉬기","부드러운 것 찾기","오늘은 다정하게"],["빛 쪽 올려다보기","천천히 발차기","공기가 가까워지는 느낌","거의 다 왔어요"],["깊게 숨쉬기","슬픔이 이기지 못했어요","당신을 통과해 지나갔어요","여기 있어요"]],msgs:["슬픔은 물이에요 — 막지 않으면 흘러가요.","떠 있는 것으로 충분해요. 아직 헤엄치지 않아도 돼요.","수면은 언제나 거기서 기다리고 있었어요.","다시 숨쉬는 게 전부예요."],result:"💙",word:"다정함",desc:"슬픔 속에 빠지지 않고 그것이 통과하게 두었어요. 그게 힘이에요.",glowClass:"gf-glow-blue"},
+    {icon:"🔥",name:"불꽃꽃",emotion:"화남",stages:["불꽃","활활 타오르며","식어가는 불씨","따뜻하고 안정된 빛"],actions:[["무엇이 잘못됐는지 이름 붙이기","삼키지 않기","열기를 느끼기","유효해요"],["안전하게 내보내기","몸을 움직이기","날것으로 써내기","베개에 소리 지르기"],["불씨를 알아채기","무엇이 가장 중요한가?","핵심 진실 찾기","이제 천천히 숨쉬기"],["열기를 연료로 바꾸기","에너지를 쏟기","무엇을 할지 결정하기","나머지는 놓아주기"]],msgs:["화는 갈 곳 없는 사랑이에요.","뜨겁게 타는 건 괜찮아요. 안전하게 함께 있어요.","화 다음에 남는 건 명료함이에요.","파괴가 아닌 연료로. 그게 전환이에요."],result:"🌻",word:"명료함",desc:"완전히 느끼고도 모든 걸 태워버리지 않았어요. 그게 지혜예요.",glowClass:"gf-glow-orange"},
+    {icon:"🪞",name:"거울고사리",emotion:"수치심",stages:["숨어서","살짝 들여다보며","목격되다","빛 속에 서다"],actions:[["스스로에게 인정하기","연기하지 않기","그냥 사실","솔직하게"],["작은 한 발짝","재앙처럼 생각하지 않기","실수가 나 자신이 아니에요","행위와 자신 분리하기"],["한 사람에게 보이기","조용히 말하기","그들의 친절 받기","파괴되지 않았어요"],["거울 보기","내 이름 말하기","여전히 소중해요","수치심은 빛 속에 머물 수 없어요"]],msgs:["수치심은 숨어서 자라요. 이름을 붙이는 것만으로 이미 더 용감해요.","최악의 순간의 행동이 내가 아니에요.","목격되는 것이 수치심이 한 것을 치유해요.","빛은 수치심의 유일한 적이에요. 당신이 가져왔어요."],result:"🌾",word:"소중함",desc:"숨어있던 곳에서 나왔고, 세상은 끝나지 않았어요. 절대 그러지 않아요.",glowClass:"gf-glow-white"},
+    {icon:"🫧",name:"떠다니는이끼",emotion:"불안",stages:["어둠 속에서 빙빙","닻 하나 찾고","속도를 줄이며","땅에 발 딛고 고요히"],actions:[["빙빙 도는 걸 느끼기","두려움에 이름 붙이기","아직 도망가지 않기","그냥 관찰하기"],["단단한 것 하나 찾기","발을 느끼기","주변에 다섯 가지","천천히 숨 한 번"],["회전이 느려지게 두기","모든 답이 필요 없어요","지금, 바로 이것","현재에 머물기"],["땅을 느끼기","지금 이 순간 안전해요","끝까지 숨 내쉬기","이 순간으로 충분해요"]],msgs:["불안은 거짓말해요. 현재는 보통 생각보다 안전해요.","닻 하나면 소용돌이를 멈출 수 있어요.","오늘 밤 모든 걸 해결하지 않아도 돼요.","지금 이 순간, 당신은 괜찮아요."],result:"🍃",word:"고요함",desc:"빙빙 도는 것 아래 땅을 찾았어요. 발 아래 언제나 거기 있었어요.",glowClass:"gf-glow-green"},
+    {icon:"🌫️",name:"회색이끼",emotion:"공허함",stages:["아무것도 없는","희미한 불씨","무언가 움직이고","조용한 살아있음"],actions:[["아무것도 없음 허용하기","아직 채우지 않기","빈 곳에서 쉬기","비어 있어도 괜찮아"],["작은 것 하나 알아채기","색깔, 소리","진짜인 것 만지기","작은 끌림 따라가기"],["아주 작은 것 하기","작은 것 만들기","몸을 살살 움직이기","호기심이 이끌게 두기"],["무엇이 움직였는지 이름 붙이기","거기 뭔가 있어요","비어있지 않아요","삶이 돌아오고 있어요"]],msgs:["비어있는 건 고장난 게 아니에요. 이전이에요.","희미한 불씨도 시작이에요.","호기심은 살아있음의 씨앗이에요.","당신 안의 무언가가 계속 갔어요. 그게 전부예요."],result:"🌙",word:"되어가는",desc:"아무것도 없는 곳에 충분히 앉아 있다가, 작고 조용하고 진짜인 것이 돌아왔어요.",glowClass:"gf-glow-purple"},
+  ]
+};
+
+let lang = 'en';
 let chosen = null, stage = 0, actsDone = 0;
 const actsPerStage = 4;
+
+function setLang(l) {
+  lang = l;
+  document.body.className = 'lang-' + l;
+  document.getElementById('btn-en').classList.toggle('active', l === 'en');
+  document.getElementById('btn-ko').classList.toggle('active', l === 'ko');
+  applyI18n();
+  renderFlowers();
+}
+
+function applyI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (i18n[lang][key] && typeof i18n[lang][key] === 'string') el.textContent = i18n[lang][key];
+  });
+  document.getElementById('narrativeText').innerHTML = i18n[lang].narrative;
+}
+
+function loadGarden() { try { return JSON.parse(localStorage.getItem('jills_garden') || '[]'); } catch(e) { return []; } }
+function saveToGarden(entry) { const g = loadGarden(); g.push(entry); localStorage.setItem('jills_garden', JSON.stringify(g)); }
 
 function goTo(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
 }
 
-function reset() {
+function resetGame() {
   chosen = null; stage = 0; actsDone = 0;
   document.getElementById('btn-choose').disabled = true;
   renderFlowers();
@@ -117,7 +312,7 @@ function reset() {
 function renderFlowers() {
   const grid = document.getElementById('flowerGrid');
   grid.innerHTML = '';
-  flowers.forEach((f, i) => {
+  flowers[lang].forEach((f, i) => {
     const card = document.createElement('div');
     card.className = 'flower-card';
     card.innerHTML = `<div class="flower-icon">${f.icon}</div><div class="flower-name">${f.name}</div><div class="flower-emotion">${f.emotion}</div>`;
@@ -139,8 +334,8 @@ function startGrow() {
 }
 
 function renderGrow() {
-  const f = flowers[chosen];
-  document.getElementById('stageNum').textContent = stage + 1;
+  const f = flowers[lang][chosen];
+  document.getElementById('stageLabelText').textContent = i18n[lang].stageOf(stage + 1, 4);
   document.getElementById('stageName').textContent = f.stages[stage];
   const icons = ['🌑','🌱','🌿', f.result];
   document.getElementById('flowerDisplay').textContent = icons[stage];
@@ -152,65 +347,77 @@ function renderGrow() {
 function updateProgress() {
   const total = actsPerStage * 4;
   const done = stage * actsPerStage + actsDone;
-  const pct = Math.round((done / total) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressLabel').textContent = done + ' / ' + total + ' actions';
+  document.getElementById('progressFill').style.width = Math.round((done / total) * 100) + '%';
+  document.getElementById('progressLabel').textContent = i18n[lang].actionsOf(done, total);
 }
 
 function renderActions() {
-  const f = flowers[chosen];
+  const f = flowers[lang][chosen];
   const grid = document.getElementById('actionGrid');
   grid.innerHTML = '';
-  f.actions[stage].forEach((a, i) => {
+  f.actions[stage].forEach(a => {
     const btn = document.createElement('button');
     btn.className = 'action-btn';
     btn.textContent = a;
-    btn.onclick = () => doAction(i, btn);
+    btn.onclick = () => doAction(btn);
     grid.appendChild(btn);
   });
 }
 
-function doAction(i, btn) {
-  const f = flowers[chosen];
+function doAction(btn) {
+  const f = flowers[lang][chosen];
   btn.disabled = true;
   actsDone++;
   updateProgress();
   document.getElementById('msgBox').textContent = f.msgs[stage];
   if (actsDone >= actsPerStage) {
-    setTimeout(() => {
-      stage++;
-      actsDone = 0;
-      if (stage >= 4) showEnding();
-      else renderGrow();
-    }, 900);
+    setTimeout(() => { stage++; actsDone = 0; stage >= 4 ? showEnding() : renderGrow(); }, 900);
   }
 }
 
 function showEnding() {
-  const f = flowers[chosen];
+  const f = flowers[lang][chosen];
   document.getElementById('endFlower').textContent = f.result;
   document.getElementById('endWord').textContent = f.word;
   document.getElementById('endDesc').textContent = f.desc;
+  const dateStr = new Date().toLocaleDateString(lang === 'ko' ? 'ko-KR' : 'en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  saveToGarden({ result: f.result, word: f.word, date: dateStr, glowClass: f.glowClass, name: f.name, emotion: f.emotion });
   goTo('s-end');
+}
+
+function renderGarden() {
+  const garden = loadGarden();
+  const container = document.getElementById('gardenFlowers');
+  const countEl = document.getElementById('gardenCount');
+  container.innerHTML = '';
+  if (garden.length === 0) {
+    container.innerHTML = `<p class="empty-garden">${i18n[lang].emptyGarden}</p>`;
+    countEl.textContent = '';
+    return;
+  }
+  countEl.textContent = i18n[lang].flowersGrown(garden.length);
+  garden.forEach((entry, idx) => {
+    const delay = (idx * 0.15) + 's';
+    const div = document.createElement('div');
+    div.className = 'garden-flower';
+    div.innerHTML = `<div class="gf-tooltip">${entry.emotion || entry.name}</div><div class="gf-emoji ${entry.glowClass}" style="animation-delay:${delay}">${entry.result}</div><div class="gf-stem"></div><div class="gf-word">${entry.word}</div><div class="gf-date">${entry.date}</div>`;
+    container.appendChild(div);
+  });
 }
 
 function drawStars() {
   const c = document.getElementById('stars');
-  c.width = window.innerWidth;
-  c.height = window.innerHeight;
+  c.width = window.innerWidth; c.height = window.innerHeight;
   const ctx = c.getContext('2d');
-  for (let i = 0; i < 120; i++) {
-    const x = Math.random() * c.width;
-    const y = Math.random() * c.height;
-    const r = Math.random() * 0.8 + 0.2;
-    const a = Math.random() * 0.5 + 0.1;
+  for (let i = 0; i < 140; i++) {
     ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(240,236,228,${a})`;
+    ctx.arc(Math.random()*c.width, Math.random()*c.height, Math.random()*0.9+0.2, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(240,236,228,${Math.random()*0.5+0.1})`;
     ctx.fill();
   }
 }
 
+applyI18n();
 renderFlowers();
 drawStars();
 window.addEventListener('resize', drawStars);
