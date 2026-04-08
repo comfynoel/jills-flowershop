@@ -12,7 +12,7 @@
   body { background: #0a0a0a; }
 
   :root {
-    --font-base: Georgia, serif;
+    --font-base: Garamond, serif;
     --font-ko: 'Pretendard', 'Noto Sans KR', sans-serif;
     --font-pixel: 'Press Start 2P', monospace;
   }
@@ -24,7 +24,7 @@
   /* Pixel title */
   .title-pixel {
     font-family: var(--font-pixel);
-    font-size: 20px;
+    font-size: 32px;
     color: #f0ece4;
     line-height: 1.6;
     margin-bottom: 0.5rem;
@@ -41,48 +41,49 @@
   .btn-red { border-color: #c0392b; color: #c0392b; }
   .btn-red:hover { background: #c0392b; color: #f0ece4; }
 
-  .narrative { font-size: 15px; line-height: 1.9; color: #ccc; max-width: 480px; margin-bottom: 2rem; font-style: italic; }
-  .section-label { font-size: 10px; letter-spacing: 3px; color: #c0392b; text-transform: uppercase; margin-bottom: 1.5rem; }
+  .narrative { font-size: 18px; line-height: 1.9; color: #ccc; max-width: 800px; margin-bottom: 2rem; font-style: italic; }
+  .section-label { font-size: 24px; letter-spacing: 3px; color: #ffffff; text-transform: uppercase; margin-bottom: 1.5rem; }
 
   .flower-grid { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; max-width: 680px; }
-  .flower-card { width: 118px; background: #111; border: 1px solid #222; padding: 1rem 0.8rem; cursor: pointer; transition: all 0.3s; }
+  .flower-card { width: 200px; background: #11111100; border: 1px solid #22222200; padding: 1rem 0.8rem; cursor: pointer; transition: all 0.3s; }
   .flower-card:hover { border-color: #c0392b; }
-  .flower-card.selected { border-color: #c0392b; background: #1a0a09; }
+  .flower-card.selected { border-color: #c0392b; background: #1a0a0900; }
   .flower-icon { font-size: 24px; margin-bottom: 6px; }
-  .flower-name { font-size: 12px; color: #f0ece4; margin-bottom: 3px; font-style: italic; }
-  .flower-emotion { font-size: 10px; color: #666; letter-spacing: 1px; }
+  .flower-name { font-size: 16px; color: #f0ece4; margin-bottom: 3px; font-style: italic; }
+  .flower-emotion { font-size: 12px; color: #666; letter-spacing: 1px; }
 
   .grow-area { width: 100%; max-width: 420px; }
-  .stage-label { font-size: 10px; letter-spacing: 2px; color: #888; text-transform: uppercase; margin-bottom: 0.5rem; }
-  .stage-name { font-size: 18px; color: #f0ece4; font-style: italic; margin-bottom: 1.5rem; }
+  .stage-label { font-size: 16px; letter-spacing: 2px; color: #888; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .stage-name { font-size: 24px; color: #f0ece4; font-style: italic; margin-bottom: 1.5rem; }
   .flower-display { font-size: 72px; margin-bottom: 1rem; transition: all 0.5s; }
   .progress-bar { width: 100%; height: 2px; background: #1a1a1a; margin-bottom: 0.5rem; }
   .progress-fill { height: 2px; background: #c0392b; transition: width 0.6s; }
   .progress-label { font-size: 10px; color: #555; letter-spacing: 1px; text-align: right; margin-bottom: 2rem; }
   .action-grid { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem; }
-  .action-btn { background: none; border: 1px solid #333; color: #aaa; padding: 8px 16px; font-size: 12px; cursor: pointer; font-family: var(--font-base); transition: all 0.25s; letter-spacing: 1px; }
+  .action-btn { background: none; border: 1px solid #333; color: #aaa; padding: 8px 16px; font-size: 16px; cursor: crosshair; font-family: var(--font-base); transition: all 0.25s; letter-spacing: 1px; }
   .action-btn:hover { border-color: #888; color: #f0ece4; }
   .action-btn:disabled { opacity: 0.3; cursor: default; }
-  .message-box { font-size: 13px; font-style: italic; color: #c0392b; min-height: 24px; margin-bottom: 1rem; }
+  .message-box { font-size: 16px; font-style: italic; color: #c0392b; min-height: 24px; margin-bottom: 1rem; }
 
   .final-word { font-size: 26px; color: #c0392b; font-style: italic; margin-bottom: 0.5rem; }
   .final-desc { font-size: 14px; color: #999; line-height: 1.8; max-width: 400px; margin-bottom: 2rem; }
 
   .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-
-  #s-garden { justify-content: flex-start; padding-top: 3rem; }
-  #s-pick { justify-content: flex-start; padding-top: 3rem; }
+ 
+  /* My Garden */
+  #s-garden { justify-content: center; padding-top: 2rem; }
+  #s-pick { justify-content: center; padding-top: 2rem; }
   .garden-title { font-size: 24px; color: #f0ece4; font-style: italic; margin-bottom: 0.3rem; }
   .garden-subtitle { font-size: 10px; letter-spacing: 3px; color: #666; text-transform: uppercase; margin-bottom: 2.5rem; }
-  .garden-ground { width: 100%; max-width: 760px; min-height: 260px; position: relative; margin-bottom: 2rem; }
+  .garden-ground { width: 100%; max-width: 1200px; min-height: 260px; position: relative; margin-bottom: 2rem; }
   .ground-line { width: 100%; height: 1px; background: linear-gradient(to right, transparent, #2a2010, #3a3020, #2a2010, transparent); position: absolute; bottom: 60px; }
-  .garden-flowers { display: flex; gap: 0; flex-wrap: wrap; justify-content: center; align-items: flex-end; padding-bottom: 60px; min-height: 200px; }
-  .garden-flower { display: flex; flex-direction: column; align-items: center; width: 90px; padding: 0 4px; cursor: pointer; transition: transform 0.3s; position: relative; }
+  .garden-flowers { display: flex; gap: 40 0; flex-wrap: wrap; justify-content: center; align-items: flex-end; padding-bottom: 60px; min-height: 200px; }
+  .garden-flower { display: flex; flex-direction: column; align-items: center; width: 90px; padding: 0 4px; margin: 0 8px; cursor: pointer; transition: transform 0.3s; position: relative; }
   .garden-flower:hover { transform: translateY(-6px); }
   .gf-emoji { font-size: 38px; margin-bottom: 2px; animation: sway 3s ease-in-out infinite; }
   .gf-stem { width: 2px; height: 28px; background: linear-gradient(to top, #1a3a1a, #2d5a2d); }
-  .gf-word { font-size: 8px; letter-spacing: 1px; color: #c0392b; text-transform: uppercase; margin-top: 8px; }
-  .gf-date { font-size: 8px; color: #444; margin-top: 2px; }
+  .gf-word { font-size: 12px; letter-spacing: 1px; color: #c0392b; text-transform: uppercase; margin-top: 8px; }
+  .gf-date { font-size: 12px; color: #444; margin-top: 2px; }
   .gf-glow-red { filter: drop-shadow(0 0 10px #ff6b6b88); }
   .gf-glow-green { filter: drop-shadow(0 0 10px #6bffb888); }
   .gf-glow-gold { filter: drop-shadow(0 0 10px #ffd70088); }
@@ -93,7 +94,7 @@
   .gf-glow-orange { filter: drop-shadow(0 0 10px #ffaa4488); }
   @keyframes sway { 0%,100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
   .empty-garden { font-size: 14px; color: #444; font-style: italic; padding: 3rem 0; }
-  .garden-count { font-size: 10px; color: #555; letter-spacing: 2px; margin-bottom: 2rem; }
+  .garden-count { font-size: 16px; color: #555; letter-spacing: 2px; margin-bottom: 3rem; }
   .gf-tooltip { display: none; position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%); background: #111; border: 1px solid #c0392b33; padding: 6px 10px; font-size: 10px; color: #ccc; white-space: nowrap; font-style: italic; z-index: 10; }
   .garden-flower:hover .gf-tooltip { display: block; }
   .btn-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
@@ -148,7 +149,7 @@
 
   <!-- Intro -->
   <div class="screen active" id="s-intro">
-    <p class="brand" data-i18n="brand">Seoul · Est. 1994</p>
+    <!-- <p class="brand" data-i18n="brand">Seoul · Est. 1994</p> -->
     <h1 class="title-pixel"><span class="title-red">Jill's</span><br>Flowershop</h1>
     <p class="subtitle" data-i18n="subtitle">A safe space for sleepless creatives</p>
     <div class="time-badge" data-i18n="opens">OPENS AT 4AM</div>
@@ -193,19 +194,19 @@
     <p class="final-desc" id="endDesc"></p>
     <div class="btn-row">
       <button class="btn-main" onclick="goTo('s-garden'); renderGarden()" data-i18n="seeGarden">See my garden</button>
-      <button class="btn-main btn-red" onclick="goTo('s-intro'); resetGame()" data-i18n="visitAgain">Visit again</button>
+      <button class="btn-main btn-red" onclick="goTo('s-pick'); resetGame()" data-i18n="visitAgain">Pick Another Flower</button>
     </div>
   </div>
 
   <!-- Garden -->
   <div class="screen" id="s-garden">
     <p class="section-label" data-i18n="myGardenLabel">My Garden</p>
-    <p class="garden-title"><span style="color:#c0392b;font-style:italic;">Jill's</span> <span data-i18n="gardenTitle">Garden</span></p>
-    <p class="garden-subtitle" data-i18n="gardenSub">Flowers grown in the dark</p>
+    <!-- <p class="garden-title"><span style="color:#c0392b;font-style:italic;">Jill's</span> <span data-i18n="gardenTitle">Garden</span></p> -->
+    <!-- <p class="garden-subtitle" data-i18n="gardenSub">Flowers grown in the dark</p> -->
     <p class="garden-count" id="gardenCount"></p>
     <div class="garden-ground">
       <div class="garden-flowers" id="gardenFlowers"></div>
-      <div class="ground-line"></div>
+      <!-- <div class="ground-line"></div> -->
     </div>
     <div class="btn-row">
       <button class="btn-main" onclick="goTo('s-enter')" data-i18n="growAnother">Grow another</button>
@@ -219,10 +220,10 @@ const i18n = {
   en: {
     brand:"Seoul · Est. 1994", subtitle:"A safe space for sleepless creatives", opens:"OPENS AT 4AM",
     enterShop:"Enter the shop", myGarden:"My garden", timeLabel:"4:00 AM · Seoul",
-    narrative:"You wander in from the dark. The sign flickers. Inside, flowers you've never seen before — the kind that only grow in the hardest places.<br><br>Jill looks up. \"You've been awake a while,\" she says. \"Pick one.\"",
+    narrative:"You wander in from the dark. The sign flickers. Inside, flowers you've never seen before — the kind that only grow in the hardest places.<br><br>The gardener looks up. \"You've been awake a while,\" she says. \"Pick one.\"",
     browseFlowers:"Browse the flowers", pickLabel:"What are you carrying tonight?", takeFlower:"Take this flower",
     stageOf:(s,t)=>`Stage ${s} of ${t}`, actionsOf:(d,t)=>`${d} / ${t} actions`,
-    bloomed:"Your flower bloomed", seeGarden:"See my garden", visitAgain:"Visit again",
+    bloomed:"Your flower bloomed", seeGarden:"See my garden", visitAgain:"Pick Another Flower",
     myGardenLabel:"My Garden", gardenTitle:"Garden", gardenSub:"Flowers grown in the dark",
     flowersGrown:(n)=>n===1?"1 flower grown":`${n} flowers grown`,
     emptyGarden:"Your garden is waiting.<br>Grow your first flower tonight.",
@@ -231,10 +232,10 @@ const i18n = {
   ko: {
     brand:"서울 · 1994년 개업", subtitle:"잠 못 드는 크리에이티브를 위한 공간", opens:"새벽 4시에 열어요",
     enterShop:"가게 들어가기", myGarden:"내 정원", timeLabel:"새벽 4시 · 서울",
-    narrative:"어둠 속에서 걸어 들어왔어요. 간판이 깜빡입니다. 안에는 한 번도 본 적 없는 꽃들이 있어요 — 가장 힘든 곳에서만 피어나는 꽃들.<br><br>Jill이 고개를 들어요. \"오래 깨어 있었군요,\" 그녀가 말해요. \"하나 골라봐요.\"",
+    narrative:"어둠 속에서 걸어 들어왔어요. 간판이 깜빡입니다. 안에는 한 번도 본 적 없는 꽃들이 있어요 — 어두운 곳에서만 피어나는 꽃들.<br><br>Jill이 고개를 들어요. \"오래 깨어 있었군요,\" 그녀가 말해요. \"하나 골라봐요.\"",
     browseFlowers:"꽃 구경하기", pickLabel:"오늘 밤 무엇을 안고 있나요?", takeFlower:"이 꽃 가져가기",
     stageOf:(s,t)=>`${s}단계 / 총 ${t}단계`, actionsOf:(d,t)=>`${d} / ${t} 행동`,
-    bloomed:"꽃이 피었어요", seeGarden:"내 정원 보기", visitAgain:"다시 방문하기",
+    bloomed:"꽃이 피었어요", seeGarden:"내 정원 보기", visitAgain:"다른 꽃 고르기",
     myGardenLabel:"내 정원", gardenTitle:"정원", gardenSub:"어둠 속에서 피운 꽃들",
     flowersGrown:(n)=>`${n}개의 꽃을 피웠어요`,
     emptyGarden:"정원이 기다리고 있어요.<br>오늘 밤 첫 번째 꽃을 키워보세요.",
