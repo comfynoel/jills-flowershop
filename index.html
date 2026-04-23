@@ -44,18 +44,50 @@
   .popup-question { font-size:14px; color:#ccc; margin-bottom:2rem; font-style:italic; }
   .popup-btns { display:flex; gap:12px; justify-content:center; }
 
-  /* Write modal */
-  .write-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:300; align-items:center; justify-content:center; }
-  .write-overlay.active { display:flex; }
-  .write-box { background:#0d0d0d; border:1px solid #333; padding:2rem; max-width:460px; width:92%; display:flex; flex-direction:column; gap:14px; }
-  .write-action-label { font-size:11px; letter-spacing:2px; color:#c0392b; text-transform:uppercase; }
-  .write-prompt { font-size:14px; color:#888; font-style:italic; line-height:1.7; }
-  .write-area { width:100%; background:#111; border:1px solid #333; color:#f0ece4; font-family:var(--font-base); font-size:15px; font-style:italic; padding:14px 16px; resize:none; min-height:120px; line-height:1.8; outline:none; }
-  .write-area::placeholder { color:#444; }
-  .write-area:focus { border-color:#c0392b44; }
-  .write-hint { font-size:10px; color:#444; font-style:italic; text-align:right; }
-  .write-close { background:none; border:1px solid #444; color:#888; padding:8px 20px; font-size:11px; letter-spacing:2px; cursor:crosshair; font-family:var(--font-base); text-transform:uppercase; transition:all 0.3s; align-self:flex-end; }
-  .write-close:hover { border-color:#f0ece4; color:#f0ece4; }
+  /* Activity modal */
+  .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.88); z-index:300; align-items:center; justify-content:center; }
+  .modal-overlay.active { display:flex; }
+  .modal-box { background:#0d0d0d; border:1px solid #2a2a2a; padding:2rem 2.2rem; max-width:440px; width:92%; display:flex; flex-direction:column; gap:14px; }
+  .modal-action-label { font-size:10px; letter-spacing:3px; color:#c0392b; text-transform:uppercase; }
+  .modal-prompt { font-size:14px; color:#888; font-style:italic; line-height:1.7; }
+
+  /* write */
+  .write-area { width:100%; background:#111; border:1px solid #2a2a2a; color:#f0ece4; font-family:var(--font-base); font-size:15px; font-style:italic; padding:14px 16px; resize:none; min-height:110px; line-height:1.8; outline:none; }
+  .write-area::placeholder { color:#3a3a3a; }
+  .write-area:focus { border-color:#c0392b33; }
+  .write-hint { font-size:10px; color:#3a3a3a; font-style:italic; text-align:right; }
+
+  /* breath */
+  .breath-bar-wrap { width:100%; height:3px; background:#1a1a1a; border-radius:2px; }
+  .breath-bar-fill { height:3px; background:#c0392b; border-radius:2px; width:10%; }
+  .breath-text { font-size:13px; color:#666; font-style:italic; letter-spacing:1px; text-align:center; }
+  .breath-count { font-size:11px; color:#444; text-align:center; }
+
+  /* wait */
+  .wait-wrap { display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .wait-ring-wrap { position:relative; width:52px; height:52px; }
+  .wait-ring-bg { position:absolute; top:0; left:0; width:52px; height:52px; border-radius:50%; border:2px solid #1a1a1a; }
+  .wait-ring { position:absolute; top:0; left:0; width:52px; height:52px; border-radius:50%; border:2px solid transparent; border-top-color:#c0392b; }
+  .wait-text { font-size:13px; color:#666; font-style:italic; }
+  .wait-sec { font-size:11px; color:#444; }
+
+  /* tap */
+  .tap-wrap { display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .tap-btn-big { background:none; border:1px solid #c0392b44; color:#c0392b; padding:12px 36px; font-size:13px; cursor:crosshair; font-family:var(--font-base); letter-spacing:2px; transition:all 0.15s; }
+  .tap-btn-big:hover { background:#c0392b11; }
+  .tap-btn-big:active { transform:scale(0.97); }
+  .tap-count { font-size:11px; color:#444; font-style:italic; }
+
+  /* hold */
+  .hold-wrap { display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .hold-btn-big { background:none; border:1px solid #c0392b44; color:#c0392b; padding:12px 36px; font-size:13px; cursor:crosshair; font-family:var(--font-base); letter-spacing:2px; user-select:none; -webkit-user-select:none; }
+  .hold-prog-wrap { width:140px; height:2px; background:#1a1a1a; border-radius:2px; }
+  .hold-prog-fill { height:2px; background:#c0392b; border-radius:2px; width:0%; transition:width 0.1s linear; }
+  .hold-text { font-size:11px; color:#444; font-style:italic; }
+
+  /* close btn */
+  .modal-close { background:none; border:1px solid #2a2a2a; color:#555; padding:7px 18px; font-size:10px; letter-spacing:2px; cursor:crosshair; font-family:var(--font-base); text-transform:uppercase; transition:all 0.3s; align-self:flex-end; }
+  .modal-close:hover { border-color:#888; color:#f0ece4; }
 
   /* Grow */
   .grow-area { width:100%; max-width:480px; }
@@ -67,15 +99,13 @@
   .progress-label { font-size:10px; color:#555; letter-spacing:1px; text-align:right; margin-bottom:2rem; }
   .message-box { font-size:15px; font-style:italic; color:#c0392b; min-height:24px; margin-bottom:1.2rem; }
   .action-grid { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-bottom:1.5rem; }
-
-  /* Action button + plus button */
   .action-item { display:flex; align-items:center; gap:4px; }
   .action-btn { background:none; border:1px solid #333; color:#aaa; padding:8px 16px; font-size:16px; cursor:crosshair; font-family:var(--font-base); transition:all 0.25s; letter-spacing:1px; }
   .action-btn:hover { border-color:#888; color:#f0ece4; }
   .action-btn:disabled { opacity:0.3; cursor:default; }
-  .action-btn:disabled + .plus-btn { opacity:0.2; pointer-events:none; }
-  .plus-btn { background:none; border:1px solid #333; color:#555; width:26px; height:26px; font-size:14px; cursor:crosshair; transition:all 0.2s; display:flex; align-items:center; justify-content:center; flex-shrink:0; line-height:1; padding:0; }
-  .plus-btn:hover { border-color:#c0392b55; color:#c0392b; }
+  .plus-btn { background:none; border:1px solid #2a2a2a; color:#444; width:26px; height:26px; font-size:14px; cursor:crosshair; transition:all 0.2s; display:flex; align-items:center; justify-content:center; flex-shrink:0; padding:0; }
+  .plus-btn:hover { border-color:#c0392b44; color:#c0392b; }
+  .plus-btn:disabled { opacity:0.15; pointer-events:none; }
 
   .final-word { font-size:26px; color:#c0392b; font-style:italic; margin-bottom:0.5rem; }
   .final-desc { font-size:14px; color:#999; line-height:1.8; max-width:400px; margin-bottom:2rem; }
@@ -94,7 +124,7 @@
   .gf-glow-green { filter:drop-shadow(0 0 10px #6bffb888); }
   .gf-glow-gold { filter:drop-shadow(0 0 10px #ffd70088); }
   .gf-glow-pink { filter:drop-shadow(0 0 10px #ff9de288); }
-  .gf-glow-blue { filter:drop-shadow(0 0 10px #6bb5ff888); }
+  .gf-glow-blue { filter:drop-shadow(0 0 10px #6bb5ff88); }
   .gf-glow-purple { filter:drop-shadow(0 0 10px #c06bff88); }
   .gf-glow-white { filter:drop-shadow(0 0 10px #ffffff66); }
   .gf-glow-orange { filter:drop-shadow(0 0 10px #ffaa4488); }
@@ -109,7 +139,6 @@
   .lang-btn { background:none; border:none; color:#666; padding:6px 13px; font-size:11px; letter-spacing:1px; cursor:crosshair; font-family:var(--font-base); transition:all 0.2s; }
   .lang-btn.active { background:#c0392b; color:#f0ece4; }
   .lang-btn:hover:not(.active) { color:#f0ece4; }
-
   body.lang-ko .btn-main,body.lang-ko .action-btn,body.lang-ko .narrative,
   body.lang-ko .section-label,body.lang-ko .subtitle,body.lang-ko .time-badge,
   body.lang-ko .flower-name,body.lang-ko .flower-emotion,body.lang-ko .stage-name,
@@ -117,15 +146,16 @@
   body.lang-ko .final-word,body.lang-ko .final-desc,body.lang-ko .garden-count,
   body.lang-ko .empty-garden,body.lang-ko .gf-word,body.lang-ko .gf-date,
   body.lang-ko .gf-tooltip,body.lang-ko .popup-question,body.lang-ko .popup-name,
-  body.lang-ko .popup-emotion,body.lang-ko .write-prompt,body.lang-ko .write-area,
-  body.lang-ko .write-hint,body.lang-ko .write-close,body.lang-ko .write-action-label
+  body.lang-ko .popup-emotion,body.lang-ko .modal-prompt,body.lang-ko .write-area,
+  body.lang-ko .write-hint,body.lang-ko .modal-close,body.lang-ko .modal-action-label,
+  body.lang-ko .breath-text,body.lang-ko .wait-text,body.lang-ko .hold-text,body.lang-ko .tap-count
   { font-family:var(--font-ko); letter-spacing:0; }
   body.lang-ko .btn-main { letter-spacing:0.5px; font-size:13px; }
   body.lang-ko .narrative { font-style:normal; font-weight:300; }
   body.lang-ko .message-box { font-style:normal; }
   body.lang-ko .final-word { font-style:normal; font-weight:500; }
   body.lang-ko .stage-name { font-style:normal; }
-  body.lang-ko .write-prompt { font-style:normal; }
+  body.lang-ko .modal-prompt { font-style:normal; }
 </style>
 </head>
 <body class="lang-en">
@@ -157,7 +187,6 @@
     <div class="flower-grid" id="flowerGrid"></div>
   </div>
 
-  <!-- Flower confirm popup -->
   <div class="popup-overlay" id="popup">
     <div class="popup-box">
       <div class="popup-flower" id="popupFlower"></div>
@@ -171,14 +200,13 @@
     </div>
   </div>
 
-  <!-- Write modal -->
-  <div class="write-overlay" id="writeModal">
-    <div class="write-box">
-      <p class="write-action-label" id="writeModalLabel"></p>
-      <p class="write-prompt" id="writeModalPrompt"></p>
-      <textarea class="write-area" id="writeModalArea" placeholder="write here — no one will see this..."></textarea>
-      <p class="write-hint" data-i18n="writeHint">this stays between you and the dark</p>
-      <button class="write-close" onclick="closeWriteModal()" data-i18n="closeWrite">Close</button>
+  <!-- Activity modal -->
+  <div class="modal-overlay" id="actModal">
+    <div class="modal-box" id="actModalBox">
+      <p class="modal-action-label" id="actModalLabel"></p>
+      <p class="modal-prompt" id="actModalPrompt"></p>
+      <div id="actModalContent"></div>
+      <button class="modal-close" onclick="closeActModal()" data-i18n="closeModal">Close</button>
     </div>
   </div>
 
@@ -208,9 +236,7 @@
   <div class="screen" id="s-garden">
     <p class="section-label" data-i18n="myGardenLabel">My Garden</p>
     <p class="garden-count" id="gardenCount"></p>
-    <div class="garden-ground">
-      <div class="garden-flowers" id="gardenFlowers"></div>
-    </div>
+    <div class="garden-ground"><div class="garden-flowers" id="gardenFlowers"></div></div>
     <div class="btn-row">
       <button class="btn-main" onclick="goTo('s-enter')" data-i18n="growAnother">Grow another</button>
       <button class="btn-main btn-red" onclick="goTo('s-intro')" data-i18n="backToShop">Back to shop</button>
@@ -230,8 +256,12 @@ const i18n = {
     bloomed:"Your flower bloomed", seeGarden:"See my garden", visitAgain:"Pick Another Flower",
     myGardenLabel:"My Garden", flowersGrown:(n)=>n===1?"1 flower grown":`${n} flowers grown`,
     emptyGarden:"Your garden is waiting.<br>Grow your first flower tonight.",
-    growAnother:"Grow another", backToShop:"Back to shop",
-    writeHint:"this stays between you and the dark", closeWrite:"Close",
+    growAnother:"Grow another", backToShop:"Back to shop", closeModal:"Close",
+    breathIn:"breathe in", breathHold:"hold", breathOut:"breathe out",
+    breathLeft:(n)=>`${n} breath${n===1?'':'s'} left`,
+    waitSit:"sit with this...", tapHint:"tap as many times as you need", tapCount:(n)=>`tapped ${n} times`,
+    holdHint:"don't let go yet", holdDone:"held", writePlaceholder:"write here — no one will see this...",
+    writeHint:"this stays between you and the dark"
   },
   ko: {
     subtitle:"잠 못 드는 크리에이티브를 위한 공간", opens:"새벽 4시에 열어요",
@@ -243,132 +273,279 @@ const i18n = {
     bloomed:"꽃이 피었어요", seeGarden:"내 정원 보기", visitAgain:"다른 꽃 고르기",
     myGardenLabel:"내 정원", flowersGrown:(n)=>`${n}개의 꽃을 피웠어요`,
     emptyGarden:"정원이 기다리고 있어요.<br>오늘 밤 첫 번째 꽃을 키워보세요.",
-    growAnother:"또 키우기", backToShop:"가게로 돌아가기",
-    writeHint:"이건 당신과 어둠 사이의 비밀이에요", closeWrite:"닫기",
+    growAnother:"또 키우기", backToShop:"가게로 돌아가기", closeModal:"닫기",
+    breathIn:"숨 들이쉬기", breathHold:"잠깐 멈추기", breathOut:"숨 내쉬기",
+    breathLeft:(n)=>`${n}번 남았어요`,
+    waitSit:"잠시 여기 있어요...", tapHint:"필요한 만큼 탭하세요", tapCount:(n)=>`${n}번 탭했어요`,
+    holdHint:"아직 놓지 마세요", holdDone:"잘 버텼어요", writePlaceholder:"여기에 써요 — 아무도 보지 않아요...",
+    writeHint:"이건 당신과 어둠 사이의 비밀이에요"
   }
 };
 
-// Write prompts for every action across all flowers
-const writePrompts = {
-  en: {
-    "Joy": [
-      ["What made you smile just now, even something tiny?","You're allowed to feel good. What does that feel like?","What is this joy, exactly? Try to name it.","What do you want to remember about this moment?"],
-      ["What is this feeling in your body?","What would you want to do right now?","Name a song that matches this feeling.","What is this feeling, exactly?"],
-      ["Who would you tell? What would you say?","What does this warmth feel like?","What do you want to give more space to?","What would you want to pass on?"],
-      ["Why do you deserve this?","Finish: I am allowed to feel this because...","Write: this is allowed. This is mine.","Write: this moment was real."]
+// Activity types: write | breath | wait | tap | hold
+// Each flower action has a matched + activity
+// Format: { type, prompt, promptKo, duration? (for wait/hold), count? (for breath), minTaps? }
+const flowerData = [
+  { icon:"💛", name:"Sunpetal", emotion:"Joy", glowClass:"gf-glow-teal", result:"☀️", word:"Joy",
+    desc:"You let yourself feel it fully, without shrinking it. That's a kind of bravery too.",
+    stages:["A small smile","Letting it in","Sharing it","Radiating"],
+    msgs:["Joy doesn't need permission to exist.","Letting yourself feel good is not betraying your hard times.","Joy shared is joy doubled.","You deserve the good moments too."],
+    actions:[
+      ["Notice what made you smile","Don't dismiss it","It counts","Let it be real"],
+      ["Laugh if you want","Dance a little","Sing quietly","Let it be silly"],
+      ["Tell someone","Share the warmth","Joy grows when given","Pass it on"],
+      ["Soak it in","You deserve this","Joy is not guilt","Let it be full"]
     ],
-    "Peace": [
-      ["What are you setting down tonight, just for now?","What would it feel like to let this go?","Write: I set this down. Just for tonight.","What would be okay if you stopped holding it?"],
-      ["What does the quiet feel like right now?","Describe the stillness.","What doesn't need to be fixed tonight?","What does just being here feel like?"],
-      ["What does a slow breath feel like in your body?","What is still clenched that could relax?","What are you enough for, right now?","Write: I am enough because..."],
-      ["What does peace feel like for you?","Write: peace is not absence. It is...","Write: I found it. It was here.","What does this stillness mean to you?"]
+    plus:[
+      [{type:"write",prompt:"What made you smile just now, even something tiny?",promptKo:"지금 무엇이 당신을 미소 짓게 했나요? 아주 작은 것도 괜찮아요."},{type:"breath",count:2,prompt:"Two slow breaths — let the feeling land.",promptKo:"천천히 두 번 숨을 쉬며 이 감정이 자리잡게 해요."},{type:"write",prompt:"Write: this feeling is real and it is mine.",promptKo:"써보세요: 이 감정은 진짜이고, 내 것이에요."},{type:"wait",duration:15,prompt:"Just sit with it for 15 seconds. No need to do anything.",promptKo:"15초 동안 그냥 이 감정과 함께 있어요."}],
+      [{type:"breath",count:2,prompt:"Two full breaths. Let the good feeling expand.",promptKo:"두 번 깊게 숨쉬며 좋은 감정이 퍼지게 해요."},{type:"wait",duration:12,prompt:"Stay with the feeling. 12 seconds. Don't move on yet.",promptKo:"12초 동안 이 감정과 함께 머물러요."},{type:"write",prompt:"Name a song that matches how you feel right now.",promptKo:"지금 기분에 맞는 노래 이름을 써보세요."},{type:"write",prompt:"What is this feeling, exactly? Write even one word.",promptKo:"이 감정이 정확히 무엇인가요? 한 단어라도 써보세요."}],
+      [{type:"write",prompt:"If you could tell one person about this, who would it be? What would you say?",promptKo:"이걸 한 명에게 말할 수 있다면, 누구에게? 뭐라고 할 건가요?"},{type:"breath",count:3,prompt:"Three breaths — joy grows when you give it space.",promptKo:"세 번 숨쉬기 — 공간을 주면 기쁨이 커져요."},{type:"write",prompt:"What do you want to remember about this moment?",promptKo:"이 순간에 대해 무엇을 기억하고 싶나요?"},{type:"wait",duration:15,prompt:"Let the warmth stay. 15 seconds.",promptKo:"따뜻함이 머물게 두세요. 15초."}],
+      [{type:"wait",duration:20,prompt:"Soak it in. 20 seconds — you don't have to move yet.",promptKo:"푹 담겨요. 20초 — 아직 이동하지 않아도 돼요."},{type:"write",prompt:"Finish this: I deserve this because...",promptKo:"완성해보세요: 나는 이럴 자격이 있어요 왜냐하면..."},{type:"breath",count:2,prompt:"Two full breaths — this is allowed.",promptKo:"두 번 깊게 숨쉬기 — 이건 허락된 거예요."},{type:"write",prompt:"Write: this is mine. I let it be full.",promptKo:"써보세요: 이건 내 것이에요. 가득 채워도 돼요."}]
+    ]
+  },
+  { icon:"🕊️", name:"Peacebloom", emotion:"Peace", glowClass:"gf-glow-white", result:"🕊️", word:"Peace",
+    desc:"You let yourself stop, just for a moment, and found that stillness was already yours.",
+    stages:["Letting go","Settling in","Breathing easy","Still and whole"],
+    msgs:["Peace is not the absence of trouble. It's a choice made inside it.","Stillness is a practice, not a destination.","Your body knows how to rest. Let it.","You carried it here. You earned this."],
+    actions:[
+      ["Release one thing","Just for now","Set it down gently","It'll be okay"],
+      ["Notice the quiet","Feel the stillness","Nothing to fix","Just be here"],
+      ["Take a slow breath","Let your shoulders drop","Unclench your hands","You are enough"],
+      ["Rest in this","Peace is not absence","It lives inside you","You found it"]
     ],
-    "Gratitude": [
-      ["Name one good thing — however small.","What else is around you right now?","Write something tiny that exists right now.","Write: this is real. This is here."],
-      ["Say it again — what are you grateful for?","Write it down one more time.","Who would you tell? What would you say?","Let it land. Write what that feels like."],
-      ["Find another good thing. Write it.","And one more.","Write: they were always there. I just looked.","Write: I was surrounded by good things."],
-      ["What will you carry forward?","Write: I chose to see this.","Write: gratitude is courage.","Write: this changed something in me."]
+    plus:[
+      [{type:"write",prompt:"What is one thing you could set down tonight, just for now?",promptKo:"오늘 밤만큼은 내려놓을 수 있는 것이 하나 있다면?"},{type:"wait",duration:15,prompt:"Just for now. Sit here 15 seconds without solving it.",promptKo:"지금 이 순간만. 15초 동안 해결하지 않고 앉아있어요."},{type:"breath",count:2,prompt:"Two breaths — breathe it out.",promptKo:"두 번 숨쉬기 — 내쉬어요."},{type:"write",prompt:"Write: it will still be there if I need it. But not tonight.",promptKo:"써보세요: 필요하면 다시 있을 거예요. 하지만 오늘 밤은 아니에요."}],
+      [{type:"wait",duration:20,prompt:"Notice the quiet. 20 seconds — just be in it.",promptKo:"고요함을 느껴요. 20초 — 그 안에 있어요."},{type:"breath",count:3,prompt:"Three slow breaths. Feel your body settle.",promptKo:"세 번 천천히 숨쉬기. 몸이 가라앉는 걸 느껴요."},{type:"wait",duration:15,prompt:"Nothing to fix. 15 seconds of just existing.",promptKo:"고칠 것 없어요. 15초 동안 그냥 존재해요."},{type:"write",prompt:"What does just being here feel like?",promptKo:"그냥 여기 있는 게 어떤 느낌인가요?"}],
+      [{type:"breath",count:4,prompt:"Four slow breaths — in through the nose, out through the mouth.",promptKo:"네 번 천천히 숨쉬기 — 코로 들이쉬고, 입으로 내쉬어요."},{type:"wait",duration:15,prompt:"Let your shoulders drop. 15 seconds.",promptKo:"어깨를 내려요. 15초."},{type:"wait",duration:12,prompt:"Open your hands. 12 seconds.",promptKo:"손을 펴요. 12초."},{type:"write",prompt:"Finish: right now, I am enough because...",promptKo:"완성해보세요: 지금 이 순간, 나는 충분해요 왜냐하면..."}],
+      [{type:"wait",duration:25,prompt:"Rest here. 25 seconds. Peace is already here.",promptKo:"여기서 쉬어요. 25초. 평화는 이미 여기 있어요."},{type:"write",prompt:"What does peace feel like in your body right now?",promptKo:"지금 몸에서 평화가 어떤 느낌인가요?"},{type:"breath",count:3,prompt:"Three more breaths. Deep and slow.",promptKo:"세 번 더 숨쉬기. 깊고 천천히."},{type:"write",prompt:"Write: I found it. It was here the whole time.",promptKo:"써보세요: 찾았어요. 여기 항상 있었어요."}]
+    ]
+  },
+  { icon:"🌈", name:"Dawnbloom", emotion:"Gratitude", glowClass:"gf-glow-gold", result:"🌈", word:"Gratitude",
+    desc:"You looked for the light and found it was already there, waiting to be noticed.",
+    stages:["Noticing the small","Holding it gently","Letting it grow","Overflowing"],
+    msgs:["Gratitude doesn't erase pain. It exists alongside it.","Saying it makes it more real.","There is always more, once you start looking.","Choosing to see good is an act of courage."],
+    actions:[
+      ["Name one good thing","Look around slowly","Something tiny counts","It's real"],
+      ["Say it out loud","Write it down","Tell someone","Feel it land"],
+      ["Find another","And another","They were always there","You just looked"],
+      ["Let it fill you","Gratitude is a practice","You chose to see","That changes everything"]
     ],
-    "Creativity": [
-      ["Write the idea — as weird as it is.","What feeling is this idea trying to express?","What if you just started? Write the first line.","What are you most afraid this idea will become?"],
-      ["Sketch it in words — rough, unedited.","Write something you'd normally delete.","Try a completely different angle.","Write the ugliest version."],
-      ["What is the core of it? What is it really saying?","What would you remove?","What does your gut say?","What is this really about?"],
-      ["Give it a name — even temporary.","Write the version you'd want someone to read.","Write: this is mine. Made at 4AM.","Write: I made this. It exists now."]
+    plus:[
+      [{type:"write",prompt:"Name one good thing — however small. Write it.",promptKo:"좋은 것 하나를 써요 — 아무리 작아도 괜찮아요."},{type:"wait",duration:15,prompt:"Look around slowly. 15 seconds. Really look.",promptKo:"천천히 둘러봐요. 15초. 정말로 봐요."},{type:"write",prompt:"Write something tiny that exists right now — a texture, a sound, a light.",promptKo:"지금 존재하는 아주 작은 것을 써요 — 감촉, 소리, 빛."},{type:"write",prompt:"Write: this is real. This is actually here.",promptKo:"써보세요: 이건 진짜예요. 실제로 여기 있어요."}],
+      [{type:"write",prompt:"Say it out loud if you can, or write it one more time here.",promptKo:"소리 내어 말할 수 있으면 해보거나, 여기 다시 써보세요."},{type:"write",prompt:"Write it down — making it concrete makes it more real.",promptKo:"써보세요 — 구체적으로 하면 더 실감나요."},{type:"write",prompt:"Who could you tell? Write their name, or what you'd say.",promptKo:"누구에게 말할 수 있나요? 이름이나 할 말을 써보세요."},{type:"breath",count:2,prompt:"Let it land. Two slow breaths — let the gratitude settle.",promptKo:"두 번 천천히 숨쉬기 — 감사함이 자리잡게 해요."}],
+      [{type:"write",prompt:"Find another good thing. There's always one more.",promptKo:"좋은 것 하나 더 찾아요. 항상 하나 더 있어요."},{type:"write",prompt:"And one more. Keep going.",promptKo:"하나 더. 계속해요."},{type:"wait",duration:15,prompt:"They were always there. 15 seconds — just sit with that.",promptKo:"항상 거기 있었어요. 15초 — 그 사실과 함께 앉아있어요."},{type:"write",prompt:"Write: I was surrounded by good things and I found them.",promptKo:"써보세요: 나는 좋은 것들로 둘러싸여 있었고, 그것들을 발견했어요."}],
+      [{type:"breath",count:3,prompt:"Let it fill you. Three slow breaths, each one carrying the good things in.",promptKo:"채워지게 해요. 세 번 천천히 숨쉬기, 좋은 것들을 담아서."},{type:"write",prompt:"What will you carry forward from tonight?",promptKo:"오늘 밤에서 무엇을 가지고 갈 건가요?"},{type:"write",prompt:"Write: I chose to see this. That is courage.",promptKo:"써보세요: 나는 이것을 보기로 선택했어요. 그게 용기예요."},{type:"wait",duration:20,prompt:"Stay here a moment. Let this be your ending. 20 seconds.",promptKo:"잠시 여기 있어요. 이것이 마무리가 되게 해요. 20초."}]
+    ]
+  },
+  { icon:"✨", name:"Lumenwild", emotion:"Creativity", glowClass:"gf-glow-gold", result:"🌟", word:"Creativity",
+    desc:"You made something from nothing at 4AM. That's the whole point.",
+    stages:["A strange idea","Sketching in the dark","Building with shadows","The thing itself"],
+    msgs:["All strange ideas are seeds.","Ugly drafts are the bravest work.","Your instinct is the gardener.","It's yours. It was always yours."],
+    actions:[
+      ["Write it weird","Don't judge yet","Follow the feeling","Sit with nothing"],
+      ["Sketch anything","Tear it up","Try again","Let it be ugly"],
+      ["Show no one yet","Add one thing","Remove one thing","Trust your instinct"],
+      ["Give it a name","Let it out","Sign it yours","Release it"]
     ],
-    "Doubt": [
-      ["Write the doubt out: I'm not sure if...","What is the doubt actually saying?","Where do you feel doubt in your body?","What would it mean if the doubt was wrong?"],
-      ["Why do you doubt this, honestly?","What's one small thing you could try despite the doubt?","Where do you feel the crack?","What's on the other side of the doubt?"],
-      ["What would keeping going look like?","What is one small sign of light?","Write: I trust myself a little because...","What would you do if you weren't doubting?"],
-      ["Write: my shape is valid.","Write: this doubt and this growth are both mine.","Write: I stand here, without apology.","Write: I bloom anyway."]
+    plus:[
+      [{type:"write",prompt:"Write the idea — as weird as it is. No editing.",promptKo:"아이디어를 써요 — 아무리 이상해도. 수정하지 마요."},{type:"wait",duration:15,prompt:"Don't judge it yet. 15 seconds — just let it exist.",promptKo:"아직 판단하지 마요. 15초 — 그냥 존재하게 해요."},{type:"write",prompt:"What feeling is this idea trying to express?",promptKo:"이 아이디어가 표현하려는 감정은 무엇인가요?"},{type:"wait",duration:20,prompt:"Sit with nothing. 20 seconds. Sometimes nothing is where it starts.",promptKo:"아무것도 없이 앉아요. 20초. 때로는 아무것도 없는 곳에서 시작해요."}],
+      [{type:"write",prompt:"Sketch it in words — rough, unedited, whatever comes.",promptKo:"단어로 스케치해요 — 거칠고 수정 없이, 뭐든 나오는 대로."},{type:"write",prompt:"Write something you'd normally delete. Keep it.",promptKo:"보통이라면 지웠을 걸 써요. 그냥 두세요."},{type:"write",prompt:"Try it from a completely different angle. What's the opposite?",promptKo:"완전히 다른 각도로 해봐요. 반대는 무엇인가요?"},{type:"write",prompt:"Write the ugliest version. The one you're afraid of.",promptKo:"가장 못난 버전을 써요. 두려운 바로 그 버전."}],
+      [{type:"write",prompt:"What is the core of it? What is this really trying to say?",promptKo:"핵심이 뭔가요? 이게 진짜 하려는 말이 뭔가요?"},{type:"write",prompt:"What would you remove? Write what feels unnecessary.",promptKo:"무엇을 빼겠어요? 불필요하다고 느끼는 걸 써요."},{type:"wait",duration:15,prompt:"Your instinct already knows. 15 seconds — just listen.",promptKo:"직감이 이미 알아요. 15초 — 그냥 들어요."},{type:"write",prompt:"What does your gut say about this?",promptKo:"직감이 뭐라고 하나요?"}],
+      [{type:"write",prompt:"Give it a name. Even a temporary one.",promptKo:"이름을 지어줘요. 임시여도 괜찮아요."},{type:"write",prompt:"Write the version you'd want someone to read.",promptKo:"누군가 읽었으면 하는 버전을 써요."},{type:"write",prompt:"Write: this is mine. Made at 4AM.",promptKo:"써보세요: 이건 내 것이에요. 새벽 4시에 만들었어요."},{type:"wait",duration:15,prompt:"Release it. 15 seconds — it exists now. That's enough.",promptKo:"놓아줘요. 15초 — 이제 존재해요. 그걸로 충분해요."}]
+    ]
+  },
+  { icon:"🌿", name:"Umbra Fern", emotion:"Doubt", glowClass:"gf-glow-green", result:"🌱", word:"Courage",
+    desc:"You doubted the dark and kept growing anyway. That's strength.",
+    stages:["Hidden beneath stone","Cracking through","Finding the light","Standing tall"],
+    msgs:["Doubt is just the seed asking if it's worth it.","The crack is the beginning.","Light finds those who reach.","You didn't need permission."],
+    actions:[
+      ["Sit quietly","Question it","Just breathe","Hold steady"],
+      ["Ask why","Try anyway","Feel the crack","Push gently"],
+      ["Look up once","Keep going","Notice the warmth","Trust a little"],
+      ["Own your shape","Name it yours","Stand without apology","Bloom anyway"]
     ],
-    "Loneliness": [
-      ["What does being alone feel like right now?","What do you notice about yourself right now?","Write: right now I am with myself, and that is...","What do you need from yourself tonight?"],
-      ["Write something to no one — a thought, anything.","Who are you, really? Write three true things.","What sound or song feels like company right now?","Write: I am still here. Still me."],
-      ["Who would you want to reach out to? What would you say?","What would stepping outside feel like right now?","Write something kind — to a stranger, or to yourself.","Write: one door I could open is..."],
-      ["Write: I would let ___ in, because...","What could you share with someone tomorrow?","Write: I received this. I let it in.","Write: I am not alone because..."]
+    plus:[
+      [{type:"wait",duration:20,prompt:"Sit quietly with the doubt. 20 seconds — just let it be here.",promptKo:"의심과 함께 조용히 앉아요. 20초 — 그냥 여기 있게 해요."},{type:"write",prompt:"Write the doubt out: I'm not sure if...",promptKo:"의심을 써요: 나는 확신이 없어요..."},{type:"breath",count:3,prompt:"Three slow breaths — you don't have to answer the doubt right now.",promptKo:"세 번 천천히 숨쉬기 — 지금 당장 답하지 않아도 돼요."},{type:"wait",duration:15,prompt:"Hold steady. 15 seconds. You don't need to move yet.",promptKo:"버텨요. 15초. 아직 움직이지 않아도 돼요."}],
+      [{type:"write",prompt:"Write: I doubt this because... Let it be honest.",promptKo:"써보세요: 나는 이것이 의심스러워요 왜냐하면..."},{type:"write",prompt:"What's one small thing you could try despite the doubt?",promptKo:"의심에도 불구하고 시도할 수 있는 작은 것이 하나 있다면?"},{type:"write",prompt:"Where do you feel the doubt in your body? Write it.",promptKo:"몸의 어디에서 의심이 느껴지나요? 써보세요."},{type:"wait",duration:15,prompt:"Push gently. 15 seconds — just lean forward a little.",promptKo:"살짝 밀어요. 15초 — 그냥 살짝 앞으로 기울어요."}],
+      [{type:"wait",duration:15,prompt:"Look up once. 15 seconds — something is there.",promptKo:"한 번 올려다봐요. 15초 — 뭔가 있어요."},{type:"write",prompt:"What would keeping going look like?",promptKo:"계속 가는 게 어떤 모습일까요?"},{type:"breath",count:2,prompt:"Notice the warmth. Two slow breaths toward it.",promptKo:"따뜻함을 느껴요. 두 번 천천히 그 방향으로 숨쉬기."},{type:"write",prompt:"Write: I trust myself a little, because...",promptKo:"써보세요: 나는 나 자신을 조금 믿어요, 왜냐하면..."}],
+      [{type:"write",prompt:"Write: my shape is valid. I don't need to be different.",promptKo:"써보세요: 내 모습은 유효해요. 다를 필요 없어요."},{type:"write",prompt:"Name it yours — write: this is mine, the doubt and the growth, all of it.",promptKo:"내 것으로 이름 붙여요 — 써보세요: 이건 내 것이에요, 의심과 성장 모두."},{type:"wait",duration:15,prompt:"Stand without apology. 15 seconds. You made it here.",promptKo:"사과 없이 서요. 15초. 여기까지 왔어요."},{type:"write",prompt:"Write: I bloom anyway.",promptKo:"써보세요: 그래도 나는 피어나요."}]
+    ]
+  },
+  { icon:"🕯️", name:"Solitude", emotion:"Loneliness", glowClass:"gf-glow-purple", result:"🌷", word:"Connection",
+    desc:"You sat alone in the dark long enough to remember you don't have to stay there.",
+    stages:["Alone in the dark","Finding your own light","Reaching outward","Connection blooms"],
+    msgs:["Loneliness is the ache of a heart that knows how to love.","Your own light is enough to start.","One small reach can change everything.","Connection was always possible."],
+    actions:[
+      ["Sit with yourself","No phone, just you","Notice your breath","Be your own company"],
+      ["Light something small","Write to no one","Hum quietly","Remember who you are"],
+      ["Send one message","Step outside briefly","Smile at a stranger","Open one door"],
+      ["Let someone in","Share something small","Receive kindness","You are not alone"]
     ],
-    "Disappointment": [
-      ["Write what actually happened, plainly.","What does this disappointment feel like in your body?","Write: I lost...","What were you hoping for?"],
-      ["What hurts most specifically?","What are you most sad about?","What would you say to someone going through this?","Write: it is okay to feel this."],
-      ["What still remains? What didn't break?","Find one thing that is still steady.","Write: the new shape of this is...","What is still true?"],
-      ["Write a new version of what winning looks like.","What is one new hope, even small?","Write one small step for tomorrow.","Write: I begin again. From here."]
+    plus:[
+      [{type:"wait",duration:20,prompt:"Sit with yourself. 20 seconds — just you.",promptKo:"혼자 앉아요. 20초 — 그냥 당신."},{type:"breath",count:3,prompt:"Three breaths — you are your own company. That's enough.",promptKo:"세 번 숨쉬기 — 당신은 자신의 친구예요. 그걸로 충분해요."},{type:"write",prompt:"Write: right now I am with myself, and that is...",promptKo:"써보세요: 지금 나는 나 자신과 함께 있고, 그것은..."},{type:"wait",duration:15,prompt:"Be your own company. 15 seconds.",promptKo:"자신의 친구가 되어요. 15초."}],
+      [{type:"write",prompt:"Write something to no one — a thought, a feeling, anything.",promptKo:"아무에게도 아닌 무언가를 써요 — 생각, 감정, 뭐든."},{type:"write",prompt:"Who are you, really? Write three things that are true about you.",promptKo:"당신은 정말 누구인가요? 당신에 대해 사실인 세 가지를 써요."},{type:"wait",duration:15,prompt:"Hum or just notice the sound of the room. 15 seconds.",promptKo:"흥얼거리거나 방의 소리를 들어요. 15초."},{type:"write",prompt:"Write: I am still here. I am still me.",promptKo:"써보세요: 나는 아직 여기 있어요. 나는 여전히 나예요."}],
+      [{type:"write",prompt:"Think of one person. Write what you'd want to say to them.",promptKo:"한 사람을 생각해요. 그들에게 하고 싶은 말을 써요."},{type:"wait",duration:15,prompt:"Imagine stepping outside for one moment. 15 seconds.",promptKo:"잠깐 밖으로 나가는 상상을 해요. 15초."},{type:"write",prompt:"Write something kind — to a stranger, or to yourself.",promptKo:"친절한 것을 써요 — 낯선 사람에게, 또는 자신에게."},{type:"write",prompt:"Write: one door I could open is...",promptKo:"써보세요: 내가 열 수 있는 문은..."}],
+      [{type:"write",prompt:"Write: I would let ___ in, because...",promptKo:"써보세요: 나는 ___을 받아들일 거예요, 왜냐하면..."},{type:"write",prompt:"What small thing could you share with someone tomorrow?",promptKo:"내일 누군가와 나눌 수 있는 작은 것이 뭔가요?"},{type:"breath",count:2,prompt:"Receive this moment. Two slow breaths — you are not alone.",promptKo:"이 순간을 받아요. 두 번 천천히 숨쉬기 — 혼자가 아니에요."},{type:"write",prompt:"Write: I am not alone because...",promptKo:"써보세요: 나는 혼자가 아니에요 왜냐하면..."}]
+    ]
+  },
+  { icon:"🌧️", name:"Rainstem", emotion:"Disappointment", glowClass:"gf-glow-gold", result:"🌼", word:"Hope",
+    desc:"Something didn't go the way you imagined. But you're still here, still hoping.",
+    stages:["The fall","Sitting in the rain","Finding solid ground","Rising again"],
+    msgs:["Disappointment means you dared to hope. That's not nothing.","Rain makes the roots dig deeper.","What remains after disappointment is real.","Beginning again is not losing. It's brave."],
+    actions:[
+      ["Let it land","Don't explain it away","Feel the drop","Name what was lost"],
+      ["Stay in the feeling","Don't rush forward","Let it rain","Give it time"],
+      ["Look at what remains","Find one steady thing","Breathe into the ground","Accept the new shape"],
+      ["Redefine what wins","Set new hope","Take one small step","Begin again"]
     ],
-    "Hurt": [
-      ["Write: I was hurt when...","Where do you feel this hurt in your body?","Write: this is real. It hurt me.","What happened, in your own words?"],
-      ["Write something kind to yourself, like to a friend.","What would healing look like?","Write: I don't have to blame anyone. I just have to heal.","What do you need right now?"],
-      ["What has healed in you before?","What small kindness could you do for yourself?","Who could you let near right now?","Write: I allow tenderness."],
-      ["Write: I wear this scar. It means I survived.","What did this teach you?","Write: I showed up. I made it here.","Write: I am still here. That is everything."]
+    plus:[
+      [{type:"wait",duration:15,prompt:"Let it land. 15 seconds — don't explain it away yet.",promptKo:"그냥 받아들여요. 15초 — 아직 합리화하지 마요."},{type:"write",prompt:"Write what actually happened — plainly, without softening it.",promptKo:"실제로 무슨 일이 있었는지 써요 — 솔직하게, 부드럽게 포장하지 말고."},{type:"write",prompt:"What does this disappointment feel like in your body?",promptKo:"이 실망이 몸에서 어떻게 느껴지나요?"},{type:"write",prompt:"Write: I lost...",promptKo:"써보세요: 나는 잃었어요..."}],
+      [{type:"wait",duration:25,prompt:"Stay in the feeling. 25 seconds. You're allowed to be here.",promptKo:"감정 안에 머물러요. 25초. 여기 있어도 돼요."},{type:"write",prompt:"What hurts most, specifically?",promptKo:"구체적으로 무엇이 가장 아픈가요?"},{type:"wait",duration:20,prompt:"Let it rain. 20 seconds — don't stop it.",promptKo:"비가 내리게 두어요. 20초 — 막지 마요."},{type:"wait",duration:20,prompt:"Give it time. 20 seconds. Just sit here.",promptKo:"시간을 줘요. 20초. 그냥 여기 앉아요."}],
+      [{type:"write",prompt:"What still remains? What didn't break?",promptKo:"무엇이 아직 남아있나요? 무엇이 부서지지 않았나요?"},{type:"write",prompt:"Find one thing that is still steady. Write it.",promptKo:"아직 안정적인 것 하나를 찾아요. 써보세요."},{type:"breath",count:4,prompt:"Four breaths, slow and deep, into solid ground.",promptKo:"네 번 천천히 깊게 숨쉬기, 단단한 땅으로."},{type:"write",prompt:"Write: the new shape of this is...",promptKo:"써보세요: 이것의 새로운 모습은..."}],
+      [{type:"write",prompt:"Write a new version of what winning looks like.",promptKo:"이기는 것의 새로운 버전을 써요."},{type:"write",prompt:"What is one new hope? Even a small one.",promptKo:"새로운 희망이 하나 있다면? 아주 작아도 괜찮아요."},{type:"write",prompt:"Write one small step you could take tomorrow.",promptKo:"내일 할 수 있는 작은 한 걸음을 써요."},{type:"write",prompt:"Write: I begin again. Starting from here.",promptKo:"써보세요: 나는 다시 시작해요. 여기서부터."}]
+    ]
+  },
+  { icon:"🩹", name:"Woundpetal", emotion:"Hurt", glowClass:"gf-glow-pink", result:"🌸", word:"Healing",
+    desc:"You let yourself hurt, and that's the only way through to the other side.",
+    stages:["Raw and open","Cleaning the wound","New skin forming","Scarred and stronger"],
+    msgs:["Hurt is honest. Don't rush past it.","Cleaning a wound is an act of self-love.","New skin is the bravest skin.","Scars are just healed courage."],
+    actions:[
+      ["Acknowledge it","Don't pretend","Feel the sting","Let it be real"],
+      ["Wash it gently","Be kind to yourself","Rest from the cause","No blame yet"],
+      ["Notice healing","Small kindness","Accept the tenderness","Let others near"],
+      ["Wear the scar","It's proof you lived","Show up anyway","You are still here"]
     ],
-    "Exhaustion": [
-      ["What are you most tired of right now?","Write: I am tired because...","What would rest actually feel like?","What does your body need?"],
-      ["What is the smallest possible next thing?","What would drinking water mean right now?","Write: slow is still moving.","Write: I am doing enough."],
-      ["What is one tiny step, no matter how small?","Write: time is moving even when I'm still.","Write: I am gentle with myself because...","What light do you still have?"],
-      ["Write: I made it. I am still here.","Write: I rose slowly. That counts.","Write: I accept warmth.","What does surviving feel like tonight?"]
+    plus:[
+      [{type:"write",prompt:"Write: I was hurt when...",promptKo:"써보세요: 나는 아팠어요..."},{type:"wait",duration:15,prompt:"Don't pretend. 15 seconds — just sit with the truth.",promptKo:"모른 척하지 마요. 15초 — 진실과 함께 앉아요."},{type:"write",prompt:"Where do you feel this hurt in your body?",promptKo:"몸의 어디에서 이 아픔이 느껴지나요?"},{type:"write",prompt:"Write: this is real. It hurt me.",promptKo:"써보세요: 이건 진짜예요. 나를 아프게 했어요."}],
+      [{type:"breath",count:3,prompt:"Be gentle with yourself. Three slow, careful breaths.",promptKo:"자신에게 다정하게. 세 번 천천히, 조심스럽게 숨쉬기."},{type:"write",prompt:"Write something kind to yourself, like you would to a friend.",promptKo:"친구에게 하듯 자신에게 친절한 것을 써요."},{type:"wait",duration:20,prompt:"Rest from the cause of the hurt. 20 seconds.",promptKo:"아픔의 원인으로부터 쉬어요. 20초."},{type:"write",prompt:"Write: I don't have to blame anyone right now. I just have to heal.",promptKo:"써보세요: 지금 당장 누구를 탓하지 않아도 돼요. 그냥 치유하면 돼요."}],
+      [{type:"wait",duration:15,prompt:"Notice something small that has healed before. 15 seconds.",promptKo:"전에 치유된 작은 것을 알아채요. 15초."},{type:"write",prompt:"Do one small kind thing for yourself, or write what it would be.",promptKo:"자신을 위해 작은 친절한 것을 하거나, 그게 무엇일지 써요."},{type:"breath",count:2,prompt:"Two tender breaths. Be soft with yourself.",promptKo:"두 번 부드러운 숨쉬기. 자신에게 부드럽게."},{type:"write",prompt:"Write: I allow tenderness toward myself.",promptKo:"써보세요: 나는 나 자신에 대한 부드러움을 허락해요."}],
+      [{type:"write",prompt:"Write: I wear this scar. It means I survived.",promptKo:"써보세요: 나는 이 흔적을 지녀요. 살아남았다는 뜻이에요."},{type:"write",prompt:"What did this hurt teach you?",promptKo:"이 아픔이 무엇을 가르쳐줬나요?"},{type:"wait",duration:15,prompt:"Show up to this moment. 15 seconds. You made it here.",promptKo:"이 순간에 나타나요. 15초. 여기까지 왔어요."},{type:"write",prompt:"Write: I am still here. That is everything.",promptKo:"써보세요: 나는 아직 여기 있어요. 그게 전부예요."}]
+    ]
+  },
+  { icon:"🌑", name:"Darkrose", emotion:"Exhaustion", glowClass:"gf-glow-red", result:"🌺", word:"Resilience",
+    desc:"You thought you were standing still. You were actually healing.",
+    stages:["Too tired to move","One small breath","Slow and steady","Open"],
+    msgs:["Resting is not giving up.","One breath. That's enough.","Slow is still moving.","You bloomed by surviving."],
+    actions:[
+      ["Rest here","Do nothing","Close your eyes","Just exist"],
+      ["One breath in","Drink water","Stretch slowly","Notice silence"],
+      ["Small step","Let time pass","Stay gentle","Conserve your light"],
+      ["Rise slowly","Unfurl a petal","Accept warmth","You made it"]
     ],
-    "Sadness": [
-      ["Write what you're feeling, even if it makes no sense.","What does this sadness feel like?","What is the wave made of?","Write: I let it come."],
-      ["Write: I am floating. That is enough.","What is one soft thing right now?","What does being gentle with yourself look like?","Write: I don't have to be okay."],
-      ["What is one small thing pulling you upward?","Write: I'm almost there.","What does the air feel like from here?","What do you notice above you?"],
-      ["Write: sadness moved through me. I am still here.","What did you learn from letting it pass?","Write: I breathed again. That is everything.","Write: I am still here."]
+    plus:[
+      [{type:"wait",duration:25,prompt:"Rest here. 25 seconds. You don't have to do anything.",promptKo:"여기서 쉬어요. 25초. 아무것도 하지 않아도 돼요."},{type:"wait",duration:20,prompt:"Do nothing. 20 seconds. Seriously.",promptKo:"아무것도 하지 마요. 20초. 진짜로."},{type:"breath",count:1,prompt:"Just one breath. In and out. That's all.",promptKo:"숨 한 번만. 들이쉬고 내쉬기. 그게 전부예요."},{type:"wait",duration:20,prompt:"Just exist. 20 seconds. That's enough.",promptKo:"그냥 존재해요. 20초. 그걸로 충분해요."}],
+      [{type:"breath",count:1,prompt:"One breath in. All the way. Then let it go.",promptKo:"숨 한 번 들이쉬기. 끝까지. 그리고 내보내기."},{type:"write",prompt:"If there's water nearby, write how you'd feel drinking it right now.",promptKo:"근처에 물이 있다면, 지금 마시면 어떤 느낌일지 써요."},{type:"breath",count:2,prompt:"Two slow breaths. That's all that's needed right now.",promptKo:"두 번 천천히 숨쉬기. 지금 필요한 건 그게 전부예요."},{type:"wait",duration:20,prompt:"Notice the quiet. 20 seconds.",promptKo:"고요함을 느껴요. 20초."}],
+      [{type:"write",prompt:"Write the smallest possible next thing — doesn't matter how small.",promptKo:"가능한 가장 작은 다음 것을 써요 — 아무리 작아도 괜찮아요."},{type:"wait",duration:20,prompt:"Let time pass. 20 seconds — time is still moving even when you're still.",promptKo:"시간이 지나게 두어요. 20초 — 당신이 가만히 있어도 시간은 흐르고 있어요."},{type:"breath",count:2,prompt:"Be gentle with yourself. Two gentle breaths.",promptKo:"자신에게 다정하게. 두 번 부드럽게 숨쉬기."},{type:"write",prompt:"Write: I am doing enough. Right now, I am.",promptKo:"써보세요: 나는 충분히 하고 있어요. 지금, 나는요."}],
+      [{type:"breath",count:2,prompt:"Rise slowly. Two breaths — like waking up gently.",promptKo:"천천히 일어나요. 두 번 숨쉬기 — 부드럽게 깨어나듯."},{type:"wait",duration:15,prompt:"One petal at a time. 15 seconds. No rush.",promptKo:"꽃잎 하나씩. 15초. 서두르지 마요."},{type:"breath",count:3,prompt:"Accept warmth. Three full breaths.",promptKo:"따뜻함을 받아요. 세 번 깊게 숨쉬기."},{type:"write",prompt:"Write: I made it. I am still here.",promptKo:"써보세요: 해냈어요. 나는 아직 여기 있어요."}]
+    ]
+  },
+  { icon:"🌊", name:"Deepbloom", emotion:"Sadness", glowClass:"gf-glow-blue", result:"💙", word:"Tenderness",
+    desc:"You let sadness move through you instead of drowning in it. That took strength.",
+    stages:["Under the water","Floating up slowly","Breaking the surface","Breathing again"],
+    msgs:["Sadness is water — it moves if you don't dam it up.","Floating is enough. You don't have to swim yet.","The surface was always there waiting for you.","Breathing again is everything."],
+    actions:[
+      ["Don't fight it","Let the wave come","Cry if you need to","Just feel it"],
+      ["Notice you're floating","Slow your breath","Find one soft thing","Be gentle today"],
+      ["Look up toward light","Kick slowly upward","Feel the air near","Almost there"],
+      ["Take a full breath","Sadness did not win","It passed through you","You are still here"]
     ],
-    "Anger": [
-      ["Write what's wrong — clearly, without softening.","Write everything you feel — fast, unfiltered.","Write: I am angry because... and it is valid.","What triggered this?"],
-      ["Write it raw — the ugly, unedited version.","What does your body want to do with this anger?","Write: this is what it feels like inside me right now.","What needs to be said?"],
-      ["What actually matters most here?","Write: the core truth of this anger is...","What do you actually need?","What would clarity look like?"],
-      ["How could this anger become fuel? What could it build?","Write a plan — even a tiny one.","Write: I decide to...","What will you do instead of burning?"]
+    plus:[
+      [{type:"wait",duration:20,prompt:"Don't fight it. 20 seconds — let the wave come.",promptKo:"싸우지 마요. 20초 — 파도가 오게 두어요."},{type:"wait",duration:20,prompt:"Let the wave come. 20 seconds — you're safe here.",promptKo:"파도가 오게 두어요. 20초 — 여기 안전해요."},{type:"write",prompt:"Write what you're feeling — even if it makes no sense.",promptKo:"느끼는 것을 써요 — 말이 안 돼도 괜찮아요."},{type:"wait",duration:15,prompt:"Just feel it. 15 seconds. No need to stop it.",promptKo:"그냥 느껴요. 15초. 막을 필요 없어요."}],
+      [{type:"breath",count:3,prompt:"Notice you're floating. Three slow breaths upward.",promptKo:"떠 있는 걸 느껴요. 세 번 천천히 위로 숨쉬기."},{type:"breath",count:3,prompt:"Slow your breath. Three long, easy exhales.",promptKo:"숨을 늦춰요. 세 번 길고 편안하게 내쉬기."},{type:"write",prompt:"Find one soft thing — a word, an image, a memory. Write it.",promptKo:"부드러운 것 하나를 찾아요 — 단어, 이미지, 기억. 써보세요."},{type:"wait",duration:15,prompt:"Be gentle today. 15 seconds. You don't have to be okay.",promptKo:"오늘은 다정하게. 15초. 괜찮지 않아도 돼요."}],
+      [{type:"wait",duration:15,prompt:"Look up toward the light. 15 seconds — it's there.",promptKo:"빛 쪽을 올려다봐요. 15초 — 거기 있어요."},{type:"breath",count:3,prompt:"Three breaths — slow kicks upward.",promptKo:"세 번 숨쉬기 — 천천히 위로 발차기."},{type:"wait",duration:15,prompt:"Feel the air getting closer. 15 seconds.",promptKo:"공기가 가까워지는 걸 느껴요. 15초."},{type:"write",prompt:"Write: I'm almost there.",promptKo:"써보세요: 거의 다 왔어요."}],
+      [{type:"breath",count:4,prompt:"Take a full breath. Four times — all the way in, all the way out.",promptKo:"깊게 숨쉬기. 네 번 — 끝까지 들이쉬고, 끝까지 내쉬기."},{type:"write",prompt:"Write: sadness moved through me. I am still here.",promptKo:"써보세요: 슬픔이 나를 통과했어요. 나는 아직 여기 있어요."},{type:"wait",duration:15,prompt:"It passed through you. 15 seconds — let that sink in.",promptKo:"당신을 통과했어요. 15초 — 그게 스며들게 해요."},{type:"write",prompt:"Write: I am still here.",promptKo:"써보세요: 나는 아직 여기 있어요."}]
+    ]
+  },
+  { icon:"🔥", name:"Emberflower", emotion:"Anger", glowClass:"gf-glow-orange", result:"🌻", word:"Clarity",
+    desc:"You felt it fully and didn't let it burn everything down. That's wisdom.",
+    stages:["The spark","Burning hot","Cooling embers","Warm steady light"],
+    msgs:["Anger is just love with nowhere to go.","Burning hot is okay. Stay with it safely.","What's left after anger is clarity.","Fuel, not destruction. That's the shift."],
+    actions:[
+      ["Name what's wrong","Don't swallow it","Feel the heat","It's valid"],
+      ["Let it out safely","Move your body","Write it down raw","Scream into a pillow"],
+      ["Notice the embers","What matters most?","Find the core truth","Breathe slowly now"],
+      ["Turn heat into fuel","Channel the energy","Decide what to do","Let the rest go"]
     ],
-    "Shame": [
-      ["Write what you're ashamed of — just for you.","Write: this happened. It doesn't define me.","Write the thing, without softening it.","Write: I am honest with myself about this."],
-      ["Write: I am more than this moment.","Write: I am not what I did in my worst moment.","Write: I am a person who ___, separate from what happened.","Write: I am not catastrophizing. I am human."],
-      ["What would someone who loves you say about this?","Write: I am ashamed of ___, and I am still worthy.","Write: I receive kindness from myself.","Write: this did not destroy me."],
-      ["Write: I see someone who is trying.","Write your own name.","Write: I am still worthy of love and belonging.","Write: shame cannot stay in light. I brought it here."]
+    plus:[
+      [{type:"write",prompt:"Name what's wrong. Write it clearly, without softening it.",promptKo:"무엇이 잘못됐는지 써요. 부드럽게 포장하지 말고 명확하게."},{type:"write",prompt:"Don't swallow it. Write everything you feel — fast, unfiltered.",promptKo:"삼키지 마요. 느끼는 모든 것을 써요 — 빠르게, 필터 없이."},{type:"wait",duration:15,prompt:"Feel the heat. 15 seconds — let yourself be angry.",promptKo:"열기를 느껴요. 15초 — 화가 나도 돼요."},{type:"write",prompt:"Write: I am angry because... and it is valid.",promptKo:"써보세요: 나는 화가 나요 왜냐하면... 그리고 그건 유효해요."}],
+      [{type:"tap",minTaps:10,prompt:"Let it out safely. Tap as many times as you need to.",promptKo:"안전하게 내보내요. 필요한 만큼 탭하세요."},{type:"wait",duration:15,prompt:"Move your body — shake your hands, roll your shoulders. 15 seconds.",promptKo:"몸을 움직여요 — 손을 털고, 어깨를 돌려요. 15초."},{type:"write",prompt:"Write it raw — the unfiltered, ugly version. Don't edit.",promptKo:"날것으로 써요 — 필터 없는, 못난 버전. 수정하지 마요."},{type:"tap",minTaps:8,prompt:"Release it. Tap until you feel something shift.",promptKo:"내보내요. 무언가 바뀌는 느낌이 들 때까지 탭해요."}],
+      [{type:"write",prompt:"What is still burning? What actually matters most here?",promptKo:"무엇이 아직 타오르나요? 여기서 실제로 가장 중요한 게 뭔가요?"},{type:"write",prompt:"Find the core truth — what is this anger really about?",promptKo:"핵심 진실을 찾아요 — 이 화는 진짜 무엇에 관한 건가요?"},{type:"breath",count:4,prompt:"Four slow breaths — cool the embers.",promptKo:"네 번 천천히 숨쉬기 — 불씨를 식혀요."},{type:"write",prompt:"Write: what I actually need right now is...",promptKo:"써보세요: 내가 지금 실제로 필요한 것은..."}],
+      [{type:"write",prompt:"How could this anger become fuel? What could it build?",promptKo:"이 화가 어떻게 연료가 될 수 있나요? 무엇을 만들 수 있나요?"},{type:"write",prompt:"Write a plan — even a tiny one. What will you do with this energy?",promptKo:"계획을 써요 — 아주 작아도 괜찮아요. 이 에너지로 무엇을 할 건가요?"},{type:"write",prompt:"Write: I decide to...",promptKo:"써보세요: 나는 결정해요..."},{type:"wait",duration:15,prompt:"Let the rest go. 15 seconds — breathe it out.",promptKo:"나머지는 놓아줘요. 15초 — 내쉬어요."}]
+    ]
+  },
+  { icon:"🪞", name:"Mirrorfern", emotion:"Shame", glowClass:"gf-glow-white", result:"🌾", word:"Worthiness",
+    desc:"You brought yourself out of hiding, and the world didn't end. It never does.",
+    stages:["Hidden from sight","Peeking out","Being witnessed","Standing in light"],
+    msgs:["Shame grows in hiding. You're already braver just by naming it.","You are not what you did in your worst moment.","Being witnessed heals what shame does.","Light is shame's only enemy. You brought it."],
+    actions:[
+      ["Admit it to yourself","No performance","Just the truth","Be honest here"],
+      ["One small step out","Don't catastrophize","You are not your mistake","Separate self from act"],
+      ["Let one person see","Speak it quietly","Receive their kindness","It didn't destroy you"],
+      ["Look in the mirror","Say your own name","You are still worthy","Shame cannot stay in light"]
     ],
-    "Anxiety": [
-      ["Write what you're anxious about — get it out of your head.","Write: I am afraid that...","What is the worst fear underneath this?","What does the anxiety feel like in your body?"],
-      ["Write what you can physically touch right now.","Write: I feel my feet on the ground.","Name 5 things you can see right now.","Write: one slow breath. That is all I need."],
-      ["Write: I don't need all the answers right now.","Write: just now. Just this.","Write what is happening in this exact moment only.","Write: I am present. Right here."],
-      ["Write: in this moment, I am safe.","Write: nothing bad is happening right now.","Write: I breathed all the way out.","Write: this moment is enough."]
+    plus:[
+      [{type:"write",prompt:"Admit it to yourself. Write what you're ashamed of — just for you.",promptKo:"스스로에게 인정해요. 부끄러운 것을 써요 — 오직 당신을 위해."},{type:"wait",duration:15,prompt:"No performance here. 15 seconds — just the truth.",promptKo:"여기서 연기하지 마요. 15초 — 그냥 진실."},{type:"write",prompt:"Write the thing, without softening it.",promptKo:"부드럽게 포장하지 말고 그것을 써요."},{type:"write",prompt:"Write: this happened. It doesn't define me.",promptKo:"써보세요: 이 일은 있었어요. 그것이 나를 정의하지 않아요."}],
+      [{type:"write",prompt:"Write: I am more than this moment.",promptKo:"써보세요: 나는 이 순간 이상이에요."},{type:"write",prompt:"Write: I am not what I did in my worst moment.",promptKo:"써보세요: 나는 최악의 순간에 한 행동이 아니에요."},{type:"write",prompt:"Separate who you are from what you did. Write: I am a person who...",promptKo:"당신이 누구인지와 당신이 한 것을 분리해요. 써보세요: 나는 사람이에요..."},{type:"wait",duration:15,prompt:"You are not catastrophizing. You are human. 15 seconds.",promptKo:"재앙화하지 마요. 당신은 인간이에요. 15초."}],
+      [{type:"write",prompt:"Imagine one person who loves you seeing this. Write what they'd say.",promptKo:"당신을 사랑하는 한 사람이 이걸 본다고 상상해요. 그들이 뭐라고 할지 써요."},{type:"write",prompt:"Write: I am ashamed of ___, and I am still worthy.",promptKo:"써보세요: 나는 ___이 부끄럽고, 나는 여전히 소중해요."},{type:"breath",count:2,prompt:"Receive kindness — from yourself first. Two slow breaths.",promptKo:"친절을 받아요 — 먼저 자신에게서. 두 번 천천히 숨쉬기."},{type:"write",prompt:"Write: this did not destroy me.",promptKo:"써보세요: 이것이 나를 파괴하지 않았어요."}],
+      [{type:"write",prompt:"Write: I see someone who is trying.",promptKo:"써보세요: 나는 노력하는 사람을 봐요."},{type:"write",prompt:"Write your own name. Just that.",promptKo:"자신의 이름을 써요. 그것만."},{type:"write",prompt:"Write: I am still worthy of love and belonging.",promptKo:"써보세요: 나는 여전히 사랑과 소속의 자격이 있어요."},{type:"wait",duration:15,prompt:"Shame cannot stay in the light. 15 seconds — you brought it here.",promptKo:"수치심은 빛 속에 머물 수 없어요. 15초 — 당신이 여기 가져왔어요."}]
+    ]
+  },
+  { icon:"🫧", name:"Driftmoss", emotion:"Anxiety", glowClass:"gf-glow-green", result:"🍃", word:"Stillness",
+    desc:"You found the ground beneath the spinning. It was always there under your feet.",
+    stages:["Spinning in the dark","One anchor found","Slowing down","Grounded and still"],
+    msgs:["Anxiety lies. The present is usually safer than it thinks.","One anchor is enough to stop the spiral.","You don't have to solve everything tonight.","Right now, in this moment, you are okay."],
+    actions:[
+      ["Notice you're spinning","Name the fear","Don't run yet","Just observe"],
+      ["Find one solid thing","Feel your feet","Five things you see","One slow breath"],
+      ["Let the spin slow","You don't need all answers","Just now, just this","Stay present"],
+      ["Feel the ground","You are safe right now","Breathe all the way out","This moment is enough"]
     ],
-    "Grief": [
-      ["Write about what you've lost — as much or as little as you want.","Write what the grief feels like.","Write: I am grieving ___, and that is allowed.","What do you miss most?"],
-      ["Write to what or who you lost.","Write everything that's in you right now.","What would you want them/it to know?","Write: I loved you/this. That love is still real."],
-      ["Where does the grief live in your body?","Write: I lean into this because I loved.","Write: the grief and the love are the same thing.","What do you want to stay close to?"],
-      ["Write: something is blooming from this loss.","Write: I accept that this is part of me now.","Write: this grief was love. It is mine.","Write: it made me. I carry it forward."]
+    plus:[
+      [{type:"write",prompt:"Write what you're anxious about — get it out of your head.",promptKo:"불안한 것을 써요 — 머릿속에서 꺼내요."},{type:"write",prompt:"Write: I am afraid that...",promptKo:"써보세요: 나는 두려워요..."},{type:"wait",duration:15,prompt:"Don't run yet. 15 seconds — just stay here.",promptKo:"아직 도망가지 마요. 15초 — 그냥 여기 있어요."},{type:"wait",duration:15,prompt:"Just observe. 15 seconds — you don't have to fix it.",promptKo:"그냥 관찰해요. 15초 — 고칠 필요 없어요."}],
+      [{type:"write",prompt:"Find one solid thing — write what you can physically touch right now.",promptKo:"단단한 것 하나를 찾아요 — 지금 실제로 만질 수 있는 것을 써요."},{type:"wait",duration:15,prompt:"Feel your feet. Press them into the ground. 15 seconds.",promptKo:"발을 느껴요. 땅에 눌러요. 15초."},{type:"write",prompt:"Name 5 things you can see right now — one at a time.",promptKo:"지금 볼 수 있는 것 5가지를 써요 — 하나씩."},{type:"breath",count:1,prompt:"One slow breath. Just one — in through the nose, out through the mouth.",promptKo:"천천히 한 번 숨쉬기. 그냥 하나 — 코로 들이쉬고, 입으로 내쉬기."}],
+      [{type:"breath",count:4,prompt:"Four breaths — let the spin slow with each one.",promptKo:"네 번 숨쉬기 — 각각으로 회전이 느려지게 해요."},{type:"write",prompt:"Write: I don't need all the answers right now. Just this moment.",promptKo:"써보세요: 지금 당장 모든 답이 필요 없어요. 그냥 이 순간만."},{type:"wait",duration:15,prompt:"Just now, just this. 15 seconds.",promptKo:"지금, 바로 이것. 15초."},{type:"write",prompt:"Write what is happening in this exact moment only.",promptKo:"바로 이 순간에만 일어나고 있는 것을 써요."}],
+      [{type:"wait",duration:20,prompt:"Feel the ground. 20 seconds — you are on solid ground.",promptKo:"땅을 느껴요. 20초 — 당신은 단단한 땅 위에 있어요."},{type:"write",prompt:"Write: in this moment, I am safe. Right now, nothing bad is happening.",promptKo:"써보세요: 이 순간, 나는 안전해요. 지금 당장 나쁜 일은 일어나지 않고 있어요."},{type:"breath",count:4,prompt:"Four complete breaths — all the way out each time.",promptKo:"네 번 완전한 숨쉬기 — 매번 끝까지 내쉬기."},{type:"write",prompt:"Write: this moment is enough.",promptKo:"써보세요: 이 순간으로 충분해요."}]
+    ]
+  },
+  { icon:"🥀", name:"Nightbloom", emotion:"Grief", glowClass:"gf-glow-pink", result:"🌹", word:"Compassion",
+    desc:"You carried something heavy and let it bloom instead of vanish.",
+    stages:["Seed in the dark","Roots reaching down","First pale shoot","Blooming at 4AM"],
+    msgs:["Even grief needs soil.","Roots grow downward first.","The shoot knows the way up.","It was always yours."],
+    actions:[
+      ["Sit with it","Let it breathe","Water gently","Wait in silence"],
+      ["Write it down","Hold the stem","Whisper to it","Watch the dark"],
+      ["Feel the ache","Let rain in","Lean into it","Stay close"],
+      ["Watch it open","Breathe deep","Accept the color","Let it be yours"]
     ],
-    "Emptiness": [
-      ["Write into the empty — even one word.","What does emptiness feel like right now?","Write: empty is not broken. It is just before.","What are you empty of?"],
-      ["Write a color you can see right now.","Write a sound you can hear.","What small thing is pulling at your attention?","Write: something is here."],
-      ["Write one word — any word.","Write one sentence — any sentence.","What made you curious just now, even a little?","Write: I follow this."],
-      ["Write: something stirred. Write what it was.","Write: I am not hollow.","Write: I am becoming. I don't know what yet.","Write: life is returning."]
+    plus:[
+      [{type:"wait",duration:25,prompt:"Sit with it. 25 seconds — no words needed. Just be here.",promptKo:"함께 앉아요. 25초 — 말이 필요 없어요. 그냥 여기 있어요."},{type:"breath",count:2,prompt:"Let it breathe. Two slow, heavy breaths.",promptKo:"숨쉬게 해요. 두 번 천천히, 무겁게 숨쉬기."},{type:"write",prompt:"Write a few words about what you're grieving — as much or as little as you want.",promptKo:"애도하는 것에 대해 몇 단어를 써요 — 많이든 적게든."},{type:"wait",duration:20,prompt:"Wait in silence. 20 seconds. Nothing to do.",promptKo:"침묵 속에 기다려요. 20초. 할 것 없어요."}],
+      [{type:"write",prompt:"Write it down — whatever is in you right now.",promptKo:"써요 — 지금 당신 안에 있는 것 무엇이든."},{type:"hold",duration:5000,prompt:"Hold this button for 5 seconds. Hold the stem — don't let go yet.",promptKo:"이 버튼을 5초 동안 누르고 있어요. 줄기를 잡아요 — 아직 놓지 마요."},{type:"write",prompt:"Write something to what or who you lost.",promptKo:"잃어버린 것이나 사람에게 무언가를 써요."},{type:"wait",duration:20,prompt:"Watch the dark. 20 seconds — you're still here.",promptKo:"어둠을 바라봐요. 20초 — 당신은 아직 여기 있어요."}],
+      [{type:"write",prompt:"Where does the grief live in your body? Write it.",promptKo:"슬픔이 몸의 어디에 살고 있나요? 써요."},{type:"wait",duration:20,prompt:"Let the rain in. 20 seconds — don't block it.",promptKo:"비를 맞아들여요. 20초 — 막지 마요."},{type:"write",prompt:"Write: I lean into this because I loved.",promptKo:"써보세요: 나는 사랑했기 때문에 이것에 기대요."},{type:"breath",count:3,prompt:"Stay close. Three breaths — slow and present.",promptKo:"가까이 있어요. 세 번 천천히 현재에 집중하며 숨쉬기."}],
+      [{type:"wait",duration:20,prompt:"Watch it open. 20 seconds — something is blooming.",promptKo:"피어나는 걸 봐요. 20초 — 무언가 피어나고 있어요."},{type:"breath",count:4,prompt:"Breathe deep. Four full breaths.",promptKo:"깊게 숨쉬기. 네 번 깊게."},{type:"write",prompt:"Write: I accept that this is part of me now.",promptKo:"써보세요: 이것이 이제 내 일부임을 받아들여요."},{type:"write",prompt:"Write: this grief was love. It is mine. It made me.",promptKo:"써보세요: 이 슬픔은 사랑이었어요. 내 것이에요. 나를 만들었어요."}]
+    ]
+  },
+  { icon:"🌫️", name:"Greymoss", emotion:"Emptiness", glowClass:"gf-glow-purple", result:"🌙", word:"Becoming",
+    desc:"You sat in the nothing long enough that something small, quiet, and real came back.",
+    stages:["Nothing at all","A faint flicker","Something stirs","Quiet aliveness"],
+    msgs:["Empty is not broken. Empty is just before.","Even a flicker is a beginning.","Curiosity is the seed of aliveness.","Something in you kept going. That's everything."],
+    actions:[
+      ["Allow the nothing","Don't fill it yet","Rest in the blank","It's okay to be empty"],
+      ["Notice one small thing","A color, a sound","Touch something real","Follow one tiny pull"],
+      ["Do one tiny thing","Make something small","Move your body gently","Let curiosity lead"],
+      ["Name what stirred","Something is there","You are not hollow","Life is returning"]
+    ],
+    plus:[
+      [{type:"wait",duration:25,prompt:"Allow the nothing. 25 seconds — don't fill it.",promptKo:"아무것도 없음을 허락해요. 25초 — 채우지 마요."},{type:"wait",duration:20,prompt:"Don't fill it yet. 20 seconds — just be in the empty.",promptKo:"아직 채우지 마요. 20초 — 그냥 비어있는 곳에 있어요."},{type:"breath",count:2,prompt:"Rest in the blank. Two gentle breaths.",promptKo:"빈 곳에서 쉬어요. 두 번 부드럽게 숨쉬기."},{type:"wait",duration:15,prompt:"Empty is okay. 15 seconds — you are not broken.",promptKo:"비어있어도 괜찮아요. 15초 — 당신은 고장나지 않았어요."}],
+      [{type:"write",prompt:"Notice one small thing — a color you can see, a sound you can hear.",promptKo:"작은 것 하나를 알아채요 — 볼 수 있는 색, 들을 수 있는 소리."},{type:"write",prompt:"Write a color you can see right now.",promptKo:"지금 볼 수 있는 색을 써요."},{type:"wait",duration:15,prompt:"Touch something real. 15 seconds — feel its texture.",promptKo:"진짜인 것을 만져요. 15초 — 그 질감을 느껴요."},{type:"write",prompt:"What small thing is pulling at your attention, even slightly?",promptKo:"당신의 주의를 끄는 작은 것이 있나요, 아주 조금이라도?"}],
+      [{type:"write",prompt:"Write one word — any word. Just one.",promptKo:"단어 하나를 써요 — 아무 단어나. 그냥 하나."},{type:"write",prompt:"Make something small — even a single sentence.",promptKo:"작은 것을 만들어요 — 문장 하나라도."},{type:"breath",count:2,prompt:"Move your body gently. Two breaths — a little deeper.",promptKo:"몸을 살살 움직여요. 두 번 숨쉬기 — 조금 더 깊게."},{type:"write",prompt:"What made you curious just now, even a little?",promptKo:"방금 조금이라도 호기심이 생긴 게 있나요?"}],
+      [{type:"write",prompt:"Name what stirred. What tiny thing came back?",promptKo:"무엇이 움직였는지 이름 붙여요. 어떤 작은 것이 돌아왔나요?"},{type:"write",prompt:"Write: something is there. I can feel it.",promptKo:"써보세요: 거기 뭔가 있어요. 느껴져요."},{type:"breath",count:3,prompt:"Three breaths. Life is returning — feel it.",promptKo:"세 번 숨쉬기. 삶이 돌아오고 있어요 — 느껴봐요."},{type:"write",prompt:"Write: I am becoming. I don't know what yet, but I am.",promptKo:"써보세요: 나는 되어가고 있어요. 아직 무엇인지 모르지만, 되어가고 있어요."}]
     ]
   }
-};
-// Add Korean prompts (mirrors English for now — replace with KO translations if needed)
-writePrompts.ko = writePrompts.en;
-
-const flowers = {
-  en: [
-    {icon:"💛",name:"Sunpetal",emotion:"Joy",stages:["A small smile","Letting it in","Sharing it","Radiating"],actions:[["Notice what made you smile","Don't dismiss it","It counts","Let it be real"],["Laugh if you want","Dance a little","Sing quietly","Let it be silly"],["Tell someone","Share the warmth","Joy grows when given","Pass it on"],["Soak it in","You deserve this","Joy is not guilt","Let it be full"]],msgs:["Joy doesn't need permission to exist.","Letting yourself feel good is not betraying your hard times.","Joy shared is joy doubled.","You deserve the good moments too."],result:"☀️",word:"Joy",desc:"You let yourself feel it fully, without shrinking it. That's a kind of bravery too.",glowClass:"gf-glow-teal"},
-    {icon:"🕊️",name:"Peacebloom",emotion:"Peace",stages:["Letting go","Settling in","Breathing easy","Still and whole"],actions:[["Release one thing","Just for now","Set it down gently","It'll be okay"],["Notice the quiet","Feel the stillness","Nothing to fix","Just be here"],["Take a slow breath","Let your shoulders drop","Unclench your hands","You are enough"],["Rest in this","Peace is not absence","It lives inside you","You found it"]],msgs:["Peace is not the absence of trouble. It's a choice made inside it.","Stillness is a practice, not a destination.","Your body knows how to rest. Let it.","You carried it here. You earned this."],result:"🕊️",word:"Peace",desc:"You let yourself stop, just for a moment, and found that stillness was already yours.",glowClass:"gf-glow-white"},
-    {icon:"🌈",name:"Dawnbloom",emotion:"Gratitude",stages:["Noticing the small","Holding it gently","Letting it grow","Overflowing"],actions:[["Name one good thing","Look around slowly","Something tiny counts","It's real"],["Say it out loud","Write it down","Tell someone","Feel it land"],["Find another","And another","They were always there","You just looked"],["Let it fill you","Gratitude is a practice","You chose to see","That changes everything"]],msgs:["Gratitude doesn't erase pain. It exists alongside it.","Saying it makes it more real.","There is always more, once you start looking.","Choosing to see good is an act of courage."],result:"🌈",word:"Gratitude",desc:"You looked for the light and found it was already there, waiting to be noticed.",glowClass:"gf-glow-gold"},
-    {icon:"✨",name:"Lumenwild",emotion:"Creativity",stages:["A strange idea","Sketching in the dark","Building with shadows","The thing itself"],actions:[["Write it weird","Don't judge yet","Follow the feeling","Sit with nothing"],["Sketch anything","Tear it up","Try again","Let it be ugly"],["Show no one yet","Add one thing","Remove one thing","Trust your instinct"],["Give it a name","Let it out","Sign it yours","Release it"]],msgs:["All strange ideas are seeds.","Ugly drafts are the bravest work.","Your instinct is the gardener.","It's yours. It was always yours."],result:"🌟",word:"Creativity",desc:"You made something from nothing at 4AM. That's the whole point.",glowClass:"gf-glow-gold"},
-    {icon:"🌿",name:"Umbra Fern",emotion:"Doubt",stages:["Hidden beneath stone","Cracking through","Finding the light","Standing tall"],actions:[["Sit quietly","Question it","Just breathe","Hold steady"],["Ask why","Try anyway","Feel the crack","Push gently"],["Look up once","Keep going","Notice the warmth","Trust a little"],["Own your shape","Name it yours","Stand without apology","Bloom anyway"]],msgs:["Doubt is just the seed asking if it's worth it.","The crack is the beginning.","Light finds those who reach.","You didn't need permission."],result:"🌱",word:"Courage",desc:"You doubted the dark and kept growing anyway. That's strength.",glowClass:"gf-glow-green"},
-    {icon:"🕯️",name:"Solitude",emotion:"Loneliness",stages:["Alone in the dark","Finding your own light","Reaching outward","Connection blooms"],actions:[["Sit with yourself","No phone, just you","Notice your breath","Be your own company"],["Light something small","Write to no one","Hum quietly","Remember who you are"],["Send one message","Step outside briefly","Smile at a stranger","Open one door"],["Let someone in","Share something small","Receive kindness","You are not alone"]],msgs:["Loneliness is the ache of a heart that knows how to love.","Your own light is enough to start.","One small reach can change everything.","Connection was always possible."],result:"🌷",word:"Connection",desc:"You sat alone in the dark long enough to remember you don't have to stay there.",glowClass:"gf-glow-purple"},
-    {icon:"🌧️",name:"Rainstem",emotion:"Disappointment",stages:["The fall","Sitting in the rain","Finding solid ground","Rising again"],actions:[["Let it land","Don't explain it away","Feel the drop","Name what was lost"],["Stay in the feeling","Don't rush forward","Let it rain","Give it time"],["Look at what remains","Find one steady thing","Breathe into the ground","Accept the new shape"],["Redefine what wins","Set new hope","Take one small step","Begin again"]],msgs:["Disappointment means you dared to hope. That's not nothing.","Rain makes the roots dig deeper.","What remains after disappointment is real.","Beginning again is not losing. It's brave."],result:"🌼",word:"Hope",desc:"Something didn't go the way you imagined. But you're still here, still hoping.",glowClass:"gf-glow-gold"},
-    {icon:"🩹",name:"Woundpetal",emotion:"Hurt",stages:["Raw and open","Cleaning the wound","New skin forming","Scarred and stronger"],actions:[["Acknowledge it","Don't pretend","Feel the sting","Let it be real"],["Wash it gently","Be kind to yourself","Rest from the cause","No blame yet"],["Notice healing","Small kindness","Accept the tenderness","Let others near"],["Wear the scar","It's proof you lived","Show up anyway","You are still here"]],msgs:["Hurt is honest. Don't rush past it.","Cleaning a wound is an act of self-love.","New skin is the bravest skin.","Scars are just healed courage."],result:"🌸",word:"Healing",desc:"You let yourself hurt, and that's the only way through to the other side.",glowClass:"gf-glow-pink"},
-    {icon:"🌑",name:"Darkrose",emotion:"Exhaustion",stages:["Too tired to move","One small breath","Slow and steady","Open"],actions:[["Rest here","Do nothing","Close your eyes","Just exist"],["One breath in","Drink water","Stretch slowly","Notice silence"],["Small step","Let time pass","Stay gentle","Conserve your light"],["Rise slowly","Unfurl a petal","Accept warmth","You made it"]],msgs:["Resting is not giving up.","One breath. That's enough.","Slow is still moving.","You bloomed by surviving."],result:"🌺",word:"Resilience",desc:"You thought you were standing still. You were actually healing.",glowClass:"gf-glow-red"},
-    {icon:"🌊",name:"Deepbloom",emotion:"Sadness",stages:["Under the water","Floating up slowly","Breaking the surface","Breathing again"],actions:[["Don't fight it","Let the wave come","Cry if you need to","Just feel it"],["Notice you're floating","Slow your breath","Find one soft thing","Be gentle today"],["Look up toward light","Kick slowly upward","Feel the air near","Almost there"],["Take a full breath","Sadness did not win","It passed through you","You are still here"]],msgs:["Sadness is water — it moves if you don't dam it up.","Floating is enough. You don't have to swim yet.","The surface was always there waiting for you.","Breathing again is everything."],result:"💙",word:"Tenderness",desc:"You let sadness move through you instead of drowning in it. That took strength.",glowClass:"gf-glow-blue"},
-    {icon:"🔥",name:"Emberflower",emotion:"Anger",stages:["The spark","Burning hot","Cooling embers","Warm steady light"],actions:[["Name what's wrong","Don't swallow it","Feel the heat","It's valid"],["Let it out safely","Move your body","Write it down raw","Scream into a pillow"],["Notice the embers","What matters most?","Find the core truth","Breathe slowly now"],["Turn heat into fuel","Channel the energy","Decide what to do","Let the rest go"]],msgs:["Anger is just love with nowhere to go.","Burning hot is okay. Stay with it safely.","What's left after anger is clarity.","Fuel, not destruction. That's the shift."],result:"🌻",word:"Clarity",desc:"You felt it fully and didn't let it burn everything down. That's wisdom.",glowClass:"gf-glow-orange"},
-    {icon:"🪞",name:"Mirrorfern",emotion:"Shame",stages:["Hidden from sight","Peeking out","Being witnessed","Standing in light"],actions:[["Admit it to yourself","No performance","Just the truth","Be honest here"],["One small step out","Don't catastrophize","You are not your mistake","Separate self from act"],["Let one person see","Speak it quietly","Receive their kindness","It didn't destroy you"],["Look in the mirror","Say your own name","You are still worthy","Shame cannot stay in light"]],msgs:["Shame grows in hiding. You're already braver just by naming it.","You are not what you did in your worst moment.","Being witnessed heals what shame does.","Light is shame's only enemy. You brought it."],result:"🌾",word:"Worthiness",desc:"You brought yourself out of hiding, and the world didn't end. It never does.",glowClass:"gf-glow-white"},
-    {icon:"🫧",name:"Driftmoss",emotion:"Anxiety",stages:["Spinning in the dark","One anchor found","Slowing down","Grounded and still"],actions:[["Notice you're spinning","Name the fear","Don't run yet","Just observe"],["Find one solid thing","Feel your feet","Five things you see","One slow breath"],["Let the spin slow","You don't need all answers","Just now, just this","Stay present"],["Feel the ground","You are safe right now","Breathe all the way out","This moment is enough"]],msgs:["Anxiety lies. The present is usually safer than it thinks.","One anchor is enough to stop the spiral.","You don't have to solve everything tonight.","Right now, in this moment, you are okay."],result:"🍃",word:"Stillness",desc:"You found the ground beneath the spinning. It was always there under your feet.",glowClass:"gf-glow-green"},
-    {icon:"🥀",name:"Nightbloom",emotion:"Grief",stages:["Seed in the dark","Roots reaching down","First pale shoot","Blooming at 4AM"],actions:[["Sit with it","Let it breathe","Water gently","Wait in silence"],["Write it down","Hold the stem","Whisper to it","Watch the dark"],["Feel the ache","Let rain in","Lean into it","Stay close"],["Watch it open","Breathe deep","Accept the color","Let it be yours"]],msgs:["Even grief needs soil.","Roots grow downward first.","The shoot knows the way up.","It was always yours."],result:"🌹",word:"Compassion",desc:"You carried something heavy and let it bloom instead of vanish.",glowClass:"gf-glow-pink"},
-    {icon:"🌫️",name:"Greymoss",emotion:"Emptiness",stages:["Nothing at all","A faint flicker","Something stirs","Quiet aliveness"],actions:[["Allow the nothing","Don't fill it yet","Rest in the blank","It's okay to be empty"],["Notice one small thing","A color, a sound","Touch something real","Follow one tiny pull"],["Do one tiny thing","Make something small","Move your body gently","Let curiosity lead"],["Name what stirred","Something is there","You are not hollow","Life is returning"]],msgs:["Empty is not broken. Empty is just before.","Even a flicker is a beginning.","Curiosity is the seed of aliveness.","Something in you kept going. That's everything."],result:"🌙",word:"Becoming",desc:"You sat in the nothing long enough that something small, quiet, and real came back.",glowClass:"gf-glow-purple"},
-  ]
-};
-flowers.ko = flowers.en;
+];
 
 let lang='en', chosen=null, stage=0, actsDone=0;
 const actsPerStage=4;
+let breathAnim=null, waitTimer=null;
 
 function setLang(l){lang=l;document.body.className='lang-'+l;document.getElementById('btn-en').classList.toggle('active',l==='en');document.getElementById('btn-ko').classList.toggle('active',l==='ko');applyI18n();renderFlowers();}
 function applyI18n(){document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');if(i18n[lang][k]&&typeof i18n[lang][k]==='string')el.textContent=i18n[lang][k];});document.getElementById('narrativeText').innerHTML=i18n[lang].narrative;}
@@ -379,18 +556,18 @@ function resetGame(){chosen=null;stage=0;actsDone=0;renderFlowers();}
 
 function renderFlowers(){
   const grid=document.getElementById('flowerGrid');grid.innerHTML='';
-  flowers.en.forEach((f,i)=>{
+  flowerData.forEach((f,i)=>{
     const card=document.createElement('div');card.className='flower-card';
     card.innerHTML=`<div class="flower-icon">${f.icon}</div><div class="flower-name">${f.name}</div><div class="flower-emotion">${f.emotion}</div>`;
     card.onclick=()=>openPopup(i);grid.appendChild(card);
   });
 }
-function openPopup(i){chosen=i;const f=flowers.en[i];document.getElementById('popupFlower').textContent=f.icon;document.getElementById('popupName').textContent=f.name;document.getElementById('popupEmotion').textContent=f.emotion;document.getElementById('popup').classList.add('active');}
+function openPopup(i){chosen=i;const f=flowerData[i];document.getElementById('popupFlower').textContent=f.icon;document.getElementById('popupName').textContent=f.name;document.getElementById('popupEmotion').textContent=f.emotion;document.getElementById('popup').classList.add('active');}
 function closePopup(){document.getElementById('popup').classList.remove('active');chosen=null;}
 function confirmPick(){document.getElementById('popup').classList.remove('active');stage=0;actsDone=0;goTo('s-grow');renderGrow();}
 
 function renderGrow(){
-  const f=flowers.en[chosen];
+  const f=flowerData[chosen];
   document.getElementById('stageLabelText').textContent=i18n[lang].stageOf(stage+1,4);
   document.getElementById('stageName').textContent=f.stages[stage];
   const icons=['🌑','🌱','🌿',f.result];
@@ -403,44 +580,115 @@ function updateProgress(){
   document.getElementById('progressLabel').textContent=i18n[lang].actionsOf(done,total);
 }
 function renderActions(){
-  const f=flowers.en[chosen];
+  const f=flowerData[chosen];
   const grid=document.getElementById('actionGrid');grid.innerHTML='';
   f.actions[stage].forEach((a,i)=>{
     const item=document.createElement('div');item.className='action-item';
     const btn=document.createElement('button');btn.className='action-btn';btn.textContent=a;
     btn.onclick=()=>doAction(i,btn,item);
-    const plus=document.createElement('button');plus.className='plus-btn';plus.title='Write about this';plus.textContent='+';
-    plus.onclick=(e)=>{e.stopPropagation();openWriteModal(f.emotion,stage,i);};
+    const plus=document.createElement('button');plus.className='plus-btn';plus.title='Go deeper';plus.textContent='+';
+    plus.onclick=(e)=>{e.stopPropagation();openActModal(stage,i);};
     item.appendChild(btn);item.appendChild(plus);grid.appendChild(item);
   });
 }
 function doAction(i,btn,item){
   btn.disabled=true;
-  const plus=item.querySelector('.plus-btn');if(plus)plus.style.opacity='0.2';
+  const plus=item.querySelector('.plus-btn');if(plus)plus.disabled=true;
   actsDone++;updateProgress();
-  const f=flowers.en[chosen];document.getElementById('msgBox').textContent=f.msgs[stage];
-  if(actsDone>=actsPerStage){
-    setTimeout(()=>{stage++;actsDone=0;if(stage>=4){showEnding();}else{renderGrow();}},900);
-  }
+  const f=flowerData[chosen];document.getElementById('msgBox').textContent=f.msgs[stage];
+  if(actsDone>=actsPerStage){setTimeout(()=>{stage++;actsDone=0;if(stage>=4){showEnding();}else{renderGrow();}},900);}
 }
 
-function openWriteModal(emotion, stg, actionI){
-  const prompts=writePrompts[lang][emotion];
-  const prompt=prompts&&prompts[stg]&&prompts[stg][actionI]?prompts[stg][actionI]:'Write whatever comes to mind...';
-  const f=flowers.en[chosen];
-  const actionLabel=f.actions[stg][actionI];
-  document.getElementById('writeModalLabel').textContent=actionLabel;
-  document.getElementById('writeModalPrompt').textContent=prompt;
-  document.getElementById('writeModalArea').value='';
-  document.getElementById('writeModal').classList.add('active');
+function openActModal(stg,actionIdx){
+  const f=flowerData[chosen];
+  const act=f.plus[stg][actionIdx];
+  const actionName=f.actions[stg][actionIdx];
+  const prompt=lang==='ko'&&act.promptKo?act.promptKo:act.prompt;
+  document.getElementById('actModalLabel').textContent=actionName;
+  document.getElementById('actModalPrompt').textContent=prompt;
+  const content=document.getElementById('actModalContent');content.innerHTML='';
+  if(act.type==='write') buildWriteModal(content);
+  else if(act.type==='breath') buildBreathModal(content,act.count||3);
+  else if(act.type==='wait') buildWaitModal(content,act.duration||15);
+  else if(act.type==='tap') buildTapModal(content,act.minTaps||8);
+  else if(act.type==='hold') buildHoldModal(content,act.duration||5000);
+  document.getElementById('actModal').classList.add('active');
 }
-function closeWriteModal(){
-  document.getElementById('writeModalArea').value='';
-  document.getElementById('writeModal').classList.remove('active');
+function closeActModal(){
+  if(breathAnim){cancelAnimationFrame(breathAnim);breathAnim=null;}
+  if(waitTimer){clearInterval(waitTimer);waitTimer=null;}
+  document.getElementById('actModalArea')&&(document.getElementById('actModalArea').value='');
+  document.getElementById('actModal').classList.remove('active');
+}
+
+function buildWriteModal(container){
+  const ta=document.createElement('textarea');ta.id='actModalArea';ta.className='write-area';ta.placeholder=i18n[lang].writePlaceholder;
+  const hint=document.createElement('p');hint.className='write-hint';hint.textContent=i18n[lang].writeHint;
+  container.appendChild(ta);container.appendChild(hint);
+}
+
+function buildBreathModal(container,count){
+  let remaining=count,phase=0;
+  const phaseNames=[i18n[lang].breathIn,i18n[lang].breathHold,i18n[lang].breathOut];
+  const phaseDurs=[4000,1500,4000];
+  const barWrap=document.createElement('div');barWrap.className='breath-bar-wrap';
+  const fill=document.createElement('div');fill.className='breath-bar-fill';barWrap.appendChild(fill);
+  const txt=document.createElement('p');txt.className='breath-text';txt.textContent=phaseNames[0];
+  const cnt=document.createElement('p');cnt.className='breath-count';cnt.textContent=i18n[lang].breathLeft(remaining);
+  container.appendChild(barWrap);container.appendChild(txt);container.appendChild(cnt);
+  let start=null;
+  function anim(ts){
+    if(!start)start=ts;
+    const el=ts-start,dur=phaseDurs[phase],pct=Math.min(el/dur,1);
+    if(phase===0)fill.style.width=(10+80*pct)+'%';
+    else if(phase===1)fill.style.width='90%';
+    else fill.style.width=(90-80*pct)+'%';
+    if(el>=dur){start=null;phase=(phase+1)%3;if(phase===0){remaining--;cnt.textContent=i18n[lang].breathLeft(remaining);if(remaining<=0){cancelAnimationFrame(breathAnim);breathAnim=null;cnt.textContent='✓ done';return;}}txt.textContent=phaseNames[phase];}
+    breathAnim=requestAnimationFrame(anim);
+  }
+  breathAnim=requestAnimationFrame(anim);
+}
+
+function buildWaitModal(container,seconds){
+  let rem=seconds;
+  const wrap=document.createElement('div');wrap.className='wait-wrap';
+  const rw=document.createElement('div');rw.className='wait-ring-wrap';
+  const bg=document.createElement('div');bg.className='wait-ring-bg';
+  const ring=document.createElement('div');ring.className='wait-ring';
+  rw.appendChild(bg);rw.appendChild(ring);
+  const txt=document.createElement('p');txt.className='wait-text';txt.textContent=i18n[lang].waitSit;
+  const sec=document.createElement('p');sec.className='wait-sec';sec.textContent=rem+'s';
+  wrap.appendChild(rw);wrap.appendChild(txt);wrap.appendChild(sec);container.appendChild(wrap);
+  ring.style.animation=`spin ${seconds}s linear forwards`;
+  ring.style.cssText+=`;animation:spin ${seconds}s linear forwards;`;
+  const style=document.createElement('style');style.textContent=`@keyframes spin{to{transform:rotate(360deg)}}`;document.head.appendChild(style);
+  waitTimer=setInterval(()=>{rem--;sec.textContent=rem+'s';if(rem<=0){clearInterval(waitTimer);waitTimer=null;sec.textContent='✓ done';}},1000);
+}
+
+function buildTapModal(container,minTaps){
+  let taps=0;
+  const wrap=document.createElement('div');wrap.className='tap-wrap';
+  const btn=document.createElement('button');btn.className='tap-btn-big';btn.textContent=i18n[lang].tapBtn||'tap';
+  const cnt=document.createElement('p');cnt.className='tap-count';cnt.textContent=i18n[lang].tapHint;
+  btn.onclick=()=>{taps++;cnt.textContent=i18n[lang].tapCount(taps);};
+  wrap.appendChild(btn);wrap.appendChild(cnt);container.appendChild(wrap);
+}
+
+function buildHoldModal(container,duration){
+  let holding=false,elapsed=0,iv;
+  const wrap=document.createElement('div');wrap.className='hold-wrap';
+  const btn=document.createElement('button');btn.className='hold-btn-big';btn.textContent=i18n[lang].holdBtn||'hold';
+  const pw=document.createElement('div');pw.className='hold-prog-wrap';
+  const pf=document.createElement('div');pf.className='hold-prog-fill';pw.appendChild(pf);
+  const txt=document.createElement('p');txt.className='hold-text';txt.textContent=i18n[lang].holdHint;
+  const start=()=>{holding=true;iv=setInterval(()=>{if(!holding){clearInterval(iv);return;}elapsed+=100;pf.style.width=Math.min((elapsed/duration)*100,100)+'%';if(elapsed>=duration){clearInterval(iv);txt.textContent=i18n[lang].holdDone||'held';}},100);};
+  const stop=()=>{holding=false;if(elapsed<duration){elapsed=0;pf.style.width='0%';}};
+  btn.addEventListener('mousedown',start);btn.addEventListener('mouseup',stop);btn.addEventListener('touchstart',(e)=>{e.preventDefault();start();});btn.addEventListener('touchend',stop);
+  wrap.appendChild(btn);wrap.appendChild(pw);wrap.appendChild(txt);container.appendChild(wrap);
 }
 
 function showEnding(){
-  const f=flowers.en[chosen];
+  const f=flowerData[chosen];
   document.getElementById('endFlower').textContent=f.result;
   document.getElementById('endWord').textContent=f.word;
   document.getElementById('endDesc').textContent=f.desc;
